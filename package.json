@@ -10,9 +10,12 @@
   },
   "dependencies": {
     "@types/node": "^20.10.7",
+    "ace-builds": "^1.32.3",
+    "plyr": "^3.7.8",
     "sass": "^1.69.7",
     "vue": "^3.3.11",
-    "vue-router": "4"
+    "vue-router": "4",
+    "vue3-ace-editor": "^2.2.4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.5.2",

@@ -10,3 +10,5 @@ yarn add  @types/node --save-dev
 yarn add sass
 # 安装自动按需引入 第三方的组件库组件 和 我们自定义的组件、自动按需引入 vue\vue-router\pinia 等的 api
 npm install -D unplugin-vue-components unplugin-auto-import
+# 安装ACE在线代码编辑器，vue3-ace-editor是为Vue3适配的ace-editor插件
+npm install vue3-ace-editor ace-builds

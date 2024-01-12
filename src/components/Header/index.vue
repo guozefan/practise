@@ -63,6 +63,7 @@ const onSetActiveId = (index: number) => {
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
   color: #5b5858;
   box-sizing: border-box;
+  z-index: 999;
 
   .logo {
     display: flex;

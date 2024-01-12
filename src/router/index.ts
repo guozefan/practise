@@ -5,11 +5,20 @@ const routes:Array<RouteRecordRaw> = [
     {
         path: '/home',
         name: 'home',
-        meta: {
-                title: "首页"
+        component: () => import( '@/views/home/index.vue'),
+        children:[
+            {
+                path: '',
+                component: () => import( '@/views/describes/index.vue'),
             },
-        component: () => import( '@/views/home/index.vue')
+            {
+                path: 'js-fun',
+                name: 'js-fun',
+                component: () => import( '@/views/js-fun/index.vue'),
+            }
+        ]
       },
+    
 ]
 
 const router = createRouter({

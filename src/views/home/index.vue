@@ -1,6 +1,7 @@
 <template>
   <Header />
   <Sidebar />
+  <Main />
 </template>
 <script setup>
 </script>
