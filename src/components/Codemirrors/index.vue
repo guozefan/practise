@@ -47,7 +47,7 @@ const options = reactive({
   line: true, // 是否显示行数
   viewportMargin: Infinity, // 高度自适应
   highlightDifferences: true,
-  autofocus: false,
+  autofocus: true,
   indentUnit: 2,
   readOnly: props.readOnly, // 只读
   showCursorWhenSelecting: true,

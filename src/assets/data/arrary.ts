@@ -34,7 +34,14 @@ Array.prototype.myForEach = function (fn) {
             'item: 数组每一项, index: 下标, arr: 数组本身'
         ],
         code_title:'手写map方法',
-        code: ''
+        code: `Array.prototype.myMap = function (callback,arr = this.array) {
+    const result = [];
+
+    for (let i = 0; i < arr.length; i++){
+            result.push(callback(arr[i], i, arr))
+    }
+    return result                           
+}`
     },
     {
         title: 'some',
@@ -54,7 +61,16 @@ Array.prototype.myForEach = function (fn) {
             'item: 数组每一项, index: 下标, arr: 数组本身,和some相反,数组中所有元素满足条件才会返回true,只要有一个不满足就会返回false'
         ],
         code_title:'手写every方法',
-        code: ''
+        code:  `Array.prototype.every = function (callback, arr = this.array) {
+    let result = true;
+    for (let i = 0; i < arr.length; i++) {
+        if (!callback(arr[i], i, arr)) {
+        result = false;
+        break;
+        }
+    }
+    return result;
+}`
     },
     {
         title: 'filter',
@@ -65,7 +81,16 @@ Array.prototype.myForEach = function (fn) {
             'item: 数组每一项, index: 下标, arr: 数组本身,返回满足条件的元素'
         ],
         code_title:'手写filter方法',
-        code: ''
+        code: `Array.prototype.filter = function (callback, arr = this.array) {
+    let result = [];
+    for (let i = 0; i < arr.length; i++) {
+            const validate = callback(arr[i], i, arr)
+        if (validate){
+            result.push(arr[i])
+        }
+    }
+    return result;
+}`
     },
     {
         title: 'findIndex',
@@ -76,7 +101,16 @@ Array.prototype.myForEach = function (fn) {
             'item: 数组每一项, index: 下标, arr: 数组本身,返回满足条件的元素'
         ],
         code_title:'手写findIndex方法',
-        code: ''
+        code: `Array.prototype.findIndex = function (callback, arr = this.array) {
+    let i = 0;
+        while (i < arr.length){
+        if(callback(arr[i], i, arr)){
+                return i;  
+        }
+        i++;
+    }
+    return -1;
+}`
     },
     
 ]

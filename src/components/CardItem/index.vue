@@ -23,7 +23,6 @@ defineProps({
 </script>
 <style lang="scss" scoped>
 .code-edit {
-  height: 3rem;
   margin-top: 0.3rem;
   margin-bottom: 0.36rem;
 }
