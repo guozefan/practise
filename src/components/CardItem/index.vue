@@ -4,7 +4,11 @@
     {{ item }}
   </p>
   <div class="code-edit">
-    <Codemirrors :value="value.code" :readOnly="false" />
+    <Codemirrors
+      :codeTitle="value.code_title"
+      :value="value.code"
+      :readOnly="false"
+    />
   </div>
 </template>
 <script setup lang="ts">

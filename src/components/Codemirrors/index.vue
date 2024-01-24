@@ -2,8 +2,10 @@
 <template>
   <div class="codemirror-box">
     <div class="copys">
-      <span>***</span>
-      <span @click="onCopy">js 复制</span>
+      <p>
+        <span>***</span> <span class="code-title">{{ codeTitle }}</span>
+      </p>
+      <span class="copy" @click="onCopy">js 复制</span>
     </div>
     <codemirror v-model:value="props.value" :options="options" />
   </div>
@@ -29,6 +31,10 @@ const props = defineProps({
   readOnly: {
     type: Boolean,
     default: true,
+  },
+  codeTitle: {
+    type: String,
+    default: "",
   },
 });
 
@@ -74,7 +80,16 @@ const onCopy = async () => {
     color: #ccc;
     padding: 0.1rem;
     border-bottom: solid 1px #ccc;
-    span:nth-child(2):hover {
+
+    .code-title {
+      color: #fff;
+      font-size: 0.15rem;
+      text-indent: 2em;
+      font-weight: 600;
+      display: inline-block;
+      letter-spacing: 1px;
+    }
+    .copy:hover {
       color: #888a93;
     }
   }

@@ -3,26 +3,18 @@
     <div class="scroll">
       <div class="scroll-item">
         <h5>本站必读</h5>
-        <p>练习题</p>
-        <p>手写题</p>
-        <p>算法题</p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
+        <p v-for="item in list" :key="item.id">
+          <router-link :to="item.url"> {{ item.text }}</router-link>
+        </p>
       </div>
     </div>
   </aside>
 </template>
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref, reactive } from "vue";
+
+const list: any[] = ref([{ id: 1, text: "js-数组方法", url: "/home/js-fun" }]);
+</script>
 <style lang="scss" scoped>
 .aside-nav {
   position: fixed;

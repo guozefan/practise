@@ -12,7 +12,19 @@ export const list: infoKey[] = [
             '语法: 数组名.forEach(function (item,index,arr) {})',
             'item: 数组每一项, index: 下标, arr: 数组本身'
         ],
-        code: ''
+        code_title:'手写forEach方法',
+        code: `
+Array.prototype.myForEach = function (fn) {
+    let context = arguments[1] || window;
+
+    if(typeof fn === 'function'){
+        for (let i = 0; i < this.length; i++){
+        fn.call(context, this[i], i, this)
+        }
+    }else {
+        throw new Error('parameterl is not a function')
+    }                                 
+}`
     },
     {
         title: 'map',
@@ -21,6 +33,7 @@ export const list: infoKey[] = [
             '语法: 数组名.map(function (item,index,arr) {})',
             'item: 数组每一项, index: 下标, arr: 数组本身'
         ],
+        code_title:'手写map方法',
         code: ''
     },
     {
@@ -30,6 +43,7 @@ export const list: infoKey[] = [
             '例子:const arr = [10,20.50,60,70,80] const res = arr.some(item => item < 0)',
             'item: 数组每一项, index: 下标, arr: 数组本身,如果数组有元素满足条件返回true,后续不再检测,否则返回false,只有一个满足也会返回true'
         ],
+        code_title:'手写some方法',
         code: ''
     },
     {
@@ -39,6 +53,7 @@ export const list: infoKey[] = [
             '例子:const arr = [10,20.50,60,70,80] const res = arr.every(item => item < 0)',
             'item: 数组每一项, index: 下标, arr: 数组本身,和some相反,数组中所有元素满足条件才会返回true,只要有一个不满足就会返回false'
         ],
+        code_title:'手写every方法',
         code: ''
     },
     {
@@ -49,6 +64,7 @@ export const list: infoKey[] = [
             '例子:const arr = [10,20.50,60,70,80] const res = arr.filter(item => item < 0)',
             'item: 数组每一项, index: 下标, arr: 数组本身,返回满足条件的元素'
         ],
+        code_title:'手写filter方法',
         code: ''
     },
     {
@@ -59,6 +75,7 @@ export const list: infoKey[] = [
             '例子:const arr = [10,20.50,60,70,80] const res = arr.findIndex(item => item < 0)',
             'item: 数组每一项, index: 下标, arr: 数组本身,返回满足条件的元素'
         ],
+        code_title:'手写findIndex方法',
         code: ''
     },
     
