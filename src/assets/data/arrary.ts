@@ -1,6 +1,7 @@
 type infoKey = {
     title: String,
     text: String[],
+    code_title: String,
     code: String
 }
 
@@ -106,6 +107,26 @@ Array.prototype.myForEach = function (fn) {
         while (i < arr.length){
         if(callback(arr[i], i, arr)){
                 return i;  
+        }
+        i++;
+    }
+    return -1;
+}`
+    },
+    {
+        title: 'find',
+        text: [
+            '用处: 查找数组中匹配的第一个元素,找到返回所在元素，否则返回undefined',
+            '语法: 数组名.find(function (item,index,arr),thisValue)',
+            '例子:const arr = [10,20.50,60,70,80] const res = arr.find(item => item === 10)',
+            'item: 数组每一项, index: 下标, arr: 数组本身,返回满足条件的元素'
+        ],
+        code_title:'手写find方法',
+        code: `Array.prototype.find = function (callback, arr = this.array) {
+    let i = 0;
+        while (i < arr.length){
+        if(callback(arr[i], i, arr)){
+                return arr[i];  
         }
         i++;
     }
