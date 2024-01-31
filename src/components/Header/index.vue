@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <div class="logo">
-      <img src="../../assets/figure/luffy.jpg" alt="" />
+      <img @click="onToUser" src="@/assets/img/avatar.jpg" alt="" />
       <p @click="onRefresh">线上笔记</p>
     </div>
     <div class="nav">
@@ -19,7 +19,8 @@
   </header>
 </template>
   <script setup lang="ts">
-import { ref, reactive, onMounted } from "vue";
+import { ref, onMounted } from "vue";
+import { toPageQuery } from "@/utils/index";
 
 const list = ref([
   { id: "", text: "react" },
@@ -36,8 +37,17 @@ onMounted(() => {
   getActiveId();
 });
 
-const onRefresh = () => {};
+// 跳到个人页
+const onToUser = () => {
+  toPageQuery("/myUser");
+};
 
+//  跳到首页
+const onRefresh = () => {
+  toPageQuery("/home");
+};
+
+// 导航跳转
 const getActiveId = () => {
   const index = JSON.parse(sessionStorage.getItem("navId") as string | any);
   if (index) {

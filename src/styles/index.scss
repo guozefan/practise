@@ -28,6 +28,9 @@ fieldset, img { border: none; } /* img 搭车：让链接里的 img 无边框 */
 button, input, select, textarea {
     font-size: 100%; /* 使得表单元素在 ie 下能继承字体大小 */
 }
+img{
+  -webkit-user-drag: none;
+}
 
 /* 重置表格元素 */
 table {

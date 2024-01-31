@@ -52,7 +52,20 @@ Array.prototype.myForEach = function (fn) {
             'item: 数组每一项, index: 下标, arr: 数组本身,如果数组有元素满足条件返回true,后续不再检测,否则返回false,只有一个满足也会返回true'
         ],
         code_title:'手写some方法',
-        code: ''
+        code: `Array.prototype.mySome = function (callback, thisValue) {
+    if (typeof callback  !== 'function'){
+        throw new Error(不是一个函数) 
+    }
+    const arr = Object(this)
+    let flag = false
+    for (let i = 0; i < arr.length; i++) {
+        const res = fn.call(thisValue, arr[i], i, arr)
+        if (res) {
+            return true
+        }
+    }
+    return flag
+}`
     },
     {
         title: 'every',

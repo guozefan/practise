@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@types/node": "^20.10.7",
+    "animate.css": "^4.1.1",
     "codemirror-editor-vue3": "^2.4.1",
     "element-plus": "^2.5.1",
     "plyr": "^3.7.8",
