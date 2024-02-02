@@ -58,8 +58,10 @@ type itemInfo = {
         { url: "https://www.leftso.com/tools/xiaohongshu", id: "43", title: "解析视频和图片", text: "小红书无水印解析",img:'' },
         { url: "https://zenvideo.qq.com/image/create", id: "44", title: "腾讯智影", text: "AI高清绘画",img:'tenAi.ico' },
         { url: "https://www.iconfont.cn/search/index?", id: "45", title: "iconfont", text: "阿里巴巴矢量图标库",img:"icon.png" },
-        { url: "https://open.hikvision.com/download/5cda567cf47ae80dd41a54b3?type=10&id=4c945d18fa5f49638ce517ec32e24e24", id: "46", title: "海康开放平台", text: "海康开放平台,海康行业开放平台,行业开放平台（私有云）,开放平台,视频,一卡通,停车场,海康威视,iot,物联网,ipc,监控,安防,二次开发,基础设施,平台服务,应用接口",img:'haikang.ico' }
+        { url: "https://open.hikvision.com/download/5cda567cf47ae80dd41a54b3?type=10&id=4c945d18fa5f49638ce517ec32e24e24", id: "46", title: "海康开放平台", text: "海康开放平台,海康行业开放平台,行业开放平台（私有云）,开放平台,视频,一卡通,停车场,海康威视,iot,物联网,ipc,监控,安防,二次开发,基础设施,平台服务,应用接口",img:'haikang.ico' },
+        { url: "https://unbug.github.io/codelf/#%E6%97%A5%E6%9C%9F", id: "47", title: "CODELF", text: "起名网站",img:"codelf.png" },
     ] },
+    
     { title: "案例资料",id:'5', list: [
         { url: "http://echarts.zhangmuchen.top/#/index", id: "51", title: "MCChart", text: "基于echarts做的各种案例效果图",img:'mcChart.ico' },
         { url: "https://www.isqqw.com/", id: "52", title: "charts案例", text: "基于echarts做的各种案例效果图",img:'isqqw.ico' },
