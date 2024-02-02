@@ -4,8 +4,8 @@ type toPage = (url: string, params?: any) => void
 type randomNum = (minNum: number, maxNum?: number) => number
 
 // 获取图片
-export const getImg = (val: string) => {
-  return new URL(`../assets/figure/${val}.jpg`, import.meta.url).href;
+export const getImg = (url: string) => {
+  return new URL(`../assets/${url}`, import.meta.url).href;
 };
 
 // 生成随机数

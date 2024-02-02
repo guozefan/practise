@@ -43,31 +43,31 @@ const BASH_KEY = reactive({
 });
 const list = ref([
   {
-    url: "luffy3",
+    url: "/figure/jpgluffy3.jpg",
     id: "3",
   },
   {
-    url: "luffy2",
+    url: "/figure/jpgluffy2.jpg",
     id: "2",
   },
   {
-    url: "luffy1",
+    url: "/figure/jpgluffy1.jpg",
     id: "1",
   },
   {
-    url: "luffy7",
+    url: "/figure/jpgluffy7.jpg",
     id: "7",
   },
   {
-    url: "luffy4",
+    url: "/figure/jpgluffy4.jpg",
     id: "4",
   },
   {
-    url: "luffy5",
+    url: "/figure/jpgluffy5.jpg",
     id: "5",
   },
   {
-    url: "luffy6",
+    url: "/figure/jpgluffy6.jpg",
     id: "6",
   },
 ]);

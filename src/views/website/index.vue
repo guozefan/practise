@@ -1,105 +1,29 @@
 <template>
   <Header />
   <main>
-    <div class="card-item">
-      <h3>闲余资源</h3>
+    <div class="card-item" v-for="item in website" :key="item.id">
+      <h3>{{ item.title }}</h3>
       <ul>
-        <li>
-          <div class="img"><img src="@/assets/img/avatar.jpg" alt="" /></div>
-          <div class="text">
-            <p class="title">前端程序员</p>
-            <p class="sub-title">会vue，react，小程序，等等</p>
+        <li v-for="row in item.list" :key="row.id" @click="onClick(row)">
+          <div class="img">
+            <img
+              :src="getImg(row.img ? 'img/' + row.img : 'img/emoji.png')"
+              alt=""
+            />
           </div>
-        </li>
-        <li>
-          <div class="img"><img src="@/assets/img/avatar.jpg" alt="" /></div>
           <div class="text">
-            <p class="title">前端程序员</p>
-            <p class="sub-title">会vue，react，小程序，等等</p>
-          </div>
-        </li>
-        <li>
-          <div class="img"><img src="@/assets/img/avatar.jpg" alt="" /></div>
-          <div class="text">
-            <p class="title">前端程序员</p>
-            <p class="sub-title">会vue，react，小程序，等等</p>
-          </div>
-        </li>
-        <li>
-          <div class="img"><img src="@/assets/img/avatar.jpg" alt="" /></div>
-          <div class="text">
-            <p class="title">前端程序员</p>
-            <p class="sub-title">会vue，react，小程序，等等</p>
-          </div>
-        </li>
-        <li>
-          <div class="img"><img src="@/assets/img/avatar.jpg" alt="" /></div>
-          <div class="text">
-            <p class="title">前端程序员</p>
-            <p class="sub-title">会vue，react，小程序，等等</p>
-          </div>
-        </li>
-        <li>
-          <div class="img"><img src="@/assets/img/avatar.jpg" alt="" /></div>
-          <div class="text">
-            <p class="title">前端程序员</p>
-            <p class="sub-title">会vue，react，小程序，等等</p>
-          </div>
-        </li>
-        <li>
-          <div class="img"><img src="@/assets/img/avatar.jpg" alt="" /></div>
-          <div class="text">
-            <p class="title">前端程序员</p>
-            <p class="sub-title">会vue，react，小程序，等等</p>
-          </div>
-        </li>
-        <li>
-          <div class="img"><img src="@/assets/img/avatar.jpg" alt="" /></div>
-          <div class="text">
-            <p class="title">前端程序员</p>
-            <p class="sub-title">会vue，react，小程序，等等</p>
-          </div>
-        </li>
-        <li>
-          <div class="img"><img src="@/assets/img/avatar.jpg" alt="" /></div>
-          <div class="text">
-            <p class="title">前端程序员</p>
-            <p class="sub-title">会vue，react，小程序，等等</p>
-          </div>
-        </li>
-        <li>
-          <div class="img"><img src="@/assets/img/avatar.jpg" alt="" /></div>
-          <div class="text">
-            <p class="title">前端程序员</p>
-            <p class="sub-title">会vue，react，小程序，等等</p>
-          </div>
-        </li>
-        <li>
-          <div class="img"><img src="@/assets/img/avatar.jpg" alt="" /></div>
-          <div class="text">
-            <p class="title">前端程序员</p>
-            <p class="sub-title">会vue，react，小程序，等等</p>
-          </div>
-        </li>
-        <li>
-          <div class="img"><img src="@/assets/img/avatar.jpg" alt="" /></div>
-          <div class="text">
-            <p class="title">前端程序员</p>
-            <p class="sub-title">会vue，react，小程序，等等</p>
-          </div>
-        </li>
-        <li>
-          <div class="img"><img src="@/assets/img/avatar.jpg" alt="" /></div>
-          <div class="text">
-            <p class="title">前端程序员</p>
-            <p class="sub-title">会vue，react，小程序，等等</p>
-          </div>
-        </li>
-        <li>
-          <div class="img"><img src="@/assets/img/avatar.jpg" alt="" /></div>
-          <div class="text">
-            <p class="title">前端程序员</p>
-            <p class="sub-title">会vue，react，小程序，等等</p>
+            <p class="title">{{ row.title }}</p>
+            <el-tooltip
+              class="sub-title"
+              effect="dark"
+              style="width: 100px"
+              placement="top"
+            >
+              <p class="sub-title">{{ row.text }}</p>
+              <template #content>
+                <p class="sub-text">{{ row.text }}</p>
+              </template>
+            </el-tooltip>
           </div>
         </li>
       </ul>
@@ -109,6 +33,11 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { website } from "@/assets/data/website";
+import { getImg } from "@/utils/index";
+
+const onClick = (row: any) => {
+  window.open(row.url, "_blank");
+};
 </script>
 <style scoped lang="scss">
 main {
@@ -128,13 +57,11 @@ main {
         box-sizing: border-box;
         display: flex;
         margin-right: 2%;
-        align-items: center;
-        justify-content: center;
-        padding-top: 0.2rem;
-        padding-bottom: 0.2rem;
+        padding: 0.2rem;
         background-color: #fff;
         margin-bottom: 0.3rem;
         box-shadow: 0 0 0.1rem rgba(0, 0, 0, 0.2);
+        box-sizing: border-box;
         border-radius: 5px;
         &:nth-child(6n) {
           margin-right: 0;
@@ -164,6 +91,7 @@ main {
         }
         .text {
           margin-left: 0.1rem;
+          flex: 1;
           .title {
             font-size: 0.18rem;
             color: #2b57e2;
@@ -171,10 +99,20 @@ main {
           }
           .sub-title {
             font-size: 0.14rem;
+            word-break: break-all;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
           }
         }
       }
     }
   }
+}
+
+.sub-text {
+  max-width: 1.8rem;
+  line-height: 1.8;
 }
 </style>
