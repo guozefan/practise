@@ -1,11 +1,10 @@
 import router from '@/router/index'
 
 type toPage = (url: string, params?: any) => void
-type randomNum = (minNum: number, maxNum?: number) => number
+type randomNum = (minNum: number, maxNum: number) => number
 
 // 获取图片
 export const getImg = (url: string) => {
-  console.log(url)
   return new URL(`../assets/${url}`, import.meta.url).href;
 };
 

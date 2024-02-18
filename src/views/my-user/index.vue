@@ -15,6 +15,21 @@
         <p class="introduce" ref="introduce"></p>
       </div>
     </div>
+    <div class="navs">
+      <div
+        class="btn animate__animated animate__shakeX animate__slower animate__infinite"
+        @click="open"
+      >
+        <span></span><span></span><span></span>
+      </div>
+      <ul :class="type ? 'unfold' : 'collapse'">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+      </ul>
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
@@ -22,6 +37,7 @@ import { ref, onMounted } from "vue";
 import type { ComponentPublicInstance } from "vue";
 import { createRandom } from "@/utils/index";
 const introduce = ref();
+const type = ref(false);
 const clause = ref<string[]>([
   "不要因为没有掌声就放弃梦想",
   "活得太清醒本就是件不浪漫的事",
@@ -54,6 +70,7 @@ onMounted(() => {
   createText();
 });
 
+// 初始化文案，随机下标
 const createText = () => {
   let clauseIndex: number | string =
     window.sessionStorage.getItem("clauseIndex") || 0;
@@ -72,6 +89,7 @@ const createText = () => {
   init([clause.value[clauseIndex], ...saying.value[randomIndex]]);
 };
 
+// 初始化打字机插件
 const init = (res: string[]) => {
   new TypeIt(introduce.value, {
     strings: res,
@@ -83,6 +101,12 @@ const init = (res: string[]) => {
     breakLines: false, // 控制是将多个字符串打印在彼此之上，还是删除这些字符串并相互替换
     loop: true, //是否循环
   }).go();
+};
+
+// 点击菜单
+const open = () => {
+  type.value = !type.value;
+  console.log(type.value);
 };
 </script>
 <style lang="scss" scoped>
@@ -140,9 +164,94 @@ const init = (res: string[]) => {
       }
     }
   }
+
+  .navs {
+    position: fixed;
+    left: 50%;
+    bottom: 5%;
+    transform: translateX(-50%);
+
+    .btn {
+      position: relative;
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+      border: #fff 1px solid;
+      z-index: 999;
+      background-color: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation-name: breathe;
+      animation-duration: 1500ms;
+      animation-iteration-count: infinite;
+      span {
+        width: 0.05rem;
+        height: 0.05rem;
+        border-radius: 50%;
+        background-color: #fff;
+        display: inline-block;
+        margin: 0 2px;
+      }
+    }
+
+    ul {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0.5rem;
+      height: 0.5rem;
+      li {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 0.5rem;
+        font-size: 0.2rem;
+        transform: scale(0);
+        color: #101013;
+        background-color: rgba(255, 255, 255, 1);
+        transition: 1s cubic-bezier(0, 0, 0, 1.25);
+      }
+    }
+    .unfold li {
+      &:nth-child(1) {
+        transform: translate(-225%, -150%) scale(1);
+      }
+      &:nth-child(2) {
+        transform: translate(-75%, -150%) scale(1);
+      }
+      &:nth-child(3) {
+        transform: translate(75%, -150%) scale(1);
+      }
+      &:nth-child(4) {
+        transform: translate(225%, -150%) scale(1);
+      }
+    }
+    .collapse li {
+      transform: translate(0, 0) scale(0);
+    }
+  }
 }
 
 .animate__delay_5ms {
   animation-delay: 0.5s;
+}
+
+@keyframes breathe {
+  0% {
+    opacity: 0.4;
+    box-shadow: 0 1px 2px rgba(0, 147, 223, 0.4),
+      0 1px 1px rgba(0, 147, 223, 0.1) inset;
+  }
+
+  100% {
+    opacity: 1;
+    border: 1px solid rgba(59, 235, 235, 0.7);
+    box-shadow: 0 1px 30px #0093df, 0 1px 20px #0093df inset;
+  }
 }
 </style>

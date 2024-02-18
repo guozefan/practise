@@ -11,6 +11,7 @@ declare module 'vue' {
     CodeEdit: typeof import('./src/components/CodeEdit/index.vue')['default']
     Codemirrors: typeof import('./src/components/Codemirrors/index.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElIcon: typeof import('element-plus/es')['ElIcon']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     Header: typeof import('./src/components/Header/index.vue')['default']
     Main: typeof import('./src/components/Main/index.vue')['default']
