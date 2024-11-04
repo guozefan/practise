@@ -2,51 +2,51 @@
   <div id="code-Edit"></div>
 </template>
 <script setup lang="ts">
-import { ref, useAttrs, watch, onMounted, defineProps } from "vue";
-import "@/assets/ace/ace";
-import "@/assets/ace/mode-javascript"; // 语言
-import "@/assets/ace/theme-ambiance"; // 主题
-import "@/assets/ace/javascript"; // 自动提示
+import '@/assets/ace/ace'
+import '@/assets/ace/javascript' // 自动提示
+import '@/assets/ace/mode-javascript' // 语言
+import '@/assets/ace/theme-ambiance' // 主题
+import { defineProps, onMounted } from 'vue'
 
-let editor: any;
+let editor: any
 const props = defineProps({
   value: {
     type: String,
-    default: "",
+    default: ''
   },
   placeholder: {
     type: String,
-    default: "",
+    default: ''
   },
   //   只读和可编辑
   readonly: {
     type: Boolean,
-    default: true,
+    default: true
   },
   //   换行
   wrap: {
     type: Boolean,
-    default: true,
+    default: true
   },
   fontSize: {
     type: Number,
-    default: 14,
+    default: 14
   },
   showLine: {
     type: Boolean,
-    default: true,
-  },
-});
+    default: true
+  }
+})
 
 onMounted(() => {
-  initAceDom();
-});
+  initAceDom()
+})
 
 // 初始化编辑器
 function initAceDom() {
-  editor = ace.edit("code-Edit", {
-    mode: "ace/mode/javascript",
-    theme: "ace/theme/ambiance",
+  editor = ace.edit('code-Edit', {
+    mode: 'ace/mode/javascript',
+    theme: 'ace/theme/ambiance',
     value: props.value,
     readOnly: props.readonly,
     wrap: props.wrap,
@@ -54,24 +54,24 @@ function initAceDom() {
     displayIndentGuides: props.showLine,
     enableBasicAutocompletion: true,
     showPrintMargin: true,
-    enableSnippets: true,
-  });
+    enableSnippets: true
+  })
 }
 
 function formatCode() {
   editor.commands.addCommand({
-    name: "formatJson",
-    bindKey: { win: "Ctrl-S", mac: "Cmd-S" },
+    name: 'formatJson',
+    bindKey: { win: 'Ctrl-S', mac: 'Cmd-S' },
     exec: function (editor: any) {
-      console.log("sdcsdc");
+      console.log('sdcsdc')
       try {
         // 一些操作;
       } catch (error) {
-        console.error(error);
+        console.error(error)
       }
     },
-    readOnly: true, // 只读模式，避免意外修改 JSON
-  });
+    readOnly: true // 只读模式，避免意外修改 JSON
+  })
 }
 </script>
 <style lang="scss" scoped>

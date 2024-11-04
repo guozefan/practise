@@ -15,102 +15,103 @@
           :style="{
             transform: `translateX(${item.translateX}px) rotateY(${item.rotateY}deg) scale(${item.scale})`,
             opacity: item.opacity,
-            zIndex: item.zIndex,
+            zIndex: item.zIndex
           }"
           @click="onClick(item.id)"
-          alt=""
-        />
+          alt="" />
       </div>
       <div class="next" @click="onNext">》</div>
     </div>
+    <Lock />
     <div class="coders-video">
       <video id="player" playsinline controls>
-        <source src="@/assets/video/coders.mp4" type="video/mp4" />
+        <!-- <source src="../../assets/video/coders.mp4" type="video/mp4" /> -->
       </video>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { ref, reactive, onMounted } from "vue";
-import { getImg } from "@/utils/index";
+import { getImg } from '@/utils/index'
+import { onMounted, reactive, ref } from 'vue'
+import Lock from './lock.vue'
 
-const index = ref(3);
+const index = ref(3)
 const BASH_KEY = reactive({
   OFFSET: 200,
   SCALE: 0.8,
   ROTATE: 45,
-  OPACITY: 0.6,
-});
+  OPACITY: 0.6
+})
 const list = ref([
   {
-    url: "figure/luffy3.jpg",
-    id: "3",
+    url: 'figure/luffy3.jpg',
+    id: '3'
   },
   {
-    url: "figure/luffy2.jpg",
-    id: "2",
+    url: 'figure/luffy2.jpg',
+    id: '2'
   },
   {
-    url: "figure/luffy1.jpg",
-    id: "1",
+    url: 'figure/luffy1.jpg',
+    id: '1'
   },
   {
-    url: "figure/luffy7.jpg",
-    id: "7",
+    url: 'figure/luffy7.jpg',
+    id: '7'
   },
   {
-    url: "figure/luffy4.jpg",
-    id: "4",
+    url: 'figure/luffy4.jpg',
+    id: '4'
   },
   {
-    url: "figure/luffy5.jpg",
-    id: "5",
+    url: 'figure/luffy5.jpg',
+    id: '5'
   },
   {
-    url: "figure/luffy6.jpg",
-    id: "6",
-  },
-]);
+    url: 'figure/luffy6.jpg',
+    id: '6'
+  }
+])
 
 onMounted(() => {
-  setStyle(index.value);
-});
+  setStyle(index.value)
+})
 function setStyle(imgIndex: number) {
-  let arr = list.value;
+  let arr = list.value
   list.value = arr.map((item: any, index: number) => {
-    const img_index = index - imgIndex;
-    const abs = Math.abs(img_index);
-    const sign = -1 * Math.sign(img_index);
-    item.translateX = img_index * BASH_KEY.OFFSET;
+    const img_index = index - imgIndex
+    const abs = Math.abs(img_index)
+    const sign = -1 * Math.sign(img_index)
+    item.translateX = img_index * BASH_KEY.OFFSET
     if (abs === 1) {
-      item.translateX += sign * 30;
+      item.translateX += sign * 30
     }
-    item.rotateY = abs === 0 ? 0 : sign * BASH_KEY.ROTATE; // -1
-    item.scale = Math.pow(BASH_KEY.SCALE, abs);
-    item.opacity = Math.pow(BASH_KEY.OPACITY, abs);
-    item.zIndex = arr.length - abs;
-    return item;
-  });
+    item.rotateY = abs === 0 ? 0 : sign * BASH_KEY.ROTATE // -1
+    item.scale = Math.pow(BASH_KEY.SCALE, abs)
+    item.opacity = Math.pow(BASH_KEY.OPACITY, abs)
+    item.zIndex = arr.length - abs
+    return item
+  })
 }
 
 function onClick(id: string) {
-  const img_index = list.value.findIndex((item: any) => item.id === id);
-  setStyle(img_index);
+  const img_index = list.value.findIndex((item: any) => item.id === id)
+  setStyle(img_index)
 }
 
 function onPrev() {
-  index.value--;
+  index.value--
   if (index.value < 0) {
-    index.value = 0;
+    index.value = 0
   }
-  setStyle(index.value);
+  setStyle(index.value)
 }
 function onNext() {
-  index.value++;
+  index.value++
   if (index.value >= list.value.length - 1) {
-    index.value = list.value.length - 1;
+    index.value = list.value.length - 1
   }
-  setStyle(index.value);
+  setStyle(index.value)
 }
 </script>
 <style scoped lang="scss">
@@ -134,6 +135,7 @@ function onNext() {
     display: flex;
     justify-content: center;
     padding-top: 30px;
+
     #player {
       width: 600px;
       height: 340px;
@@ -149,6 +151,7 @@ function onNext() {
     display: flex;
     align-items: center;
     padding: 0 50px;
+
     .prev,
     .next {
       position: absolute;
@@ -158,9 +161,11 @@ function onNext() {
       cursor: pointer;
       z-index: 99;
     }
+
     .prev {
       left: -50px;
     }
+
     .next {
       right: -50px;
     }
@@ -175,6 +180,7 @@ function onNext() {
       align-items: center;
       transform-style: preserve-3d;
       perspective: 1000px;
+
       img {
         width: 280px;
         height: 400px;
