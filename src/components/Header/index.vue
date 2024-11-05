@@ -6,60 +6,62 @@
     </div>
     <div class="nav">
       <ul>
-        <li
-          v-for="(item, index) in list"
-          :key="index"
-          :class="navId === index ? 'active' : ''"
-          @click="onSetActiveId(index)"
-        >
+        <li v-for="(item, index) in list" :key="index" :class="navId === index ? 'active' : ''" @click="onSetActiveId(index)">
           <span>{{ item.text }}</span>
         </li>
       </ul>
+      <div class="el-switch__core">
+        <Sunny style="font-size: 2em; width: 0.2rem; height: 0.2rem" />
+        <Moon style="font-size: 2em; width: 0.2rem; height: 0.2rem" />
+      </div>
     </div>
   </header>
 </template>
-  <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { toPageQuery } from "@/utils/index";
+<script setup lang="ts">
+import { toPageQuery } from '@/utils/index'
+import { onMounted, ref } from 'vue'
+
+import Moon from '~icons/ep/moon'
+import Sunny from '~icons/ep/sunny'
 
 const list = ref([
-  { id: "", text: "react" },
-  { id: "", text: "vue" },
-  { id: "", text: "知识点" },
-  { id: "", text: "手写题" },
-  { id: "", text: "Js函数" },
-  { id: "", text: "Github" },
-  { id: "", text: "掘金" },
-]);
-const navId = ref(-1);
+  { id: '', text: 'react' },
+  { id: '', text: 'vue' },
+  { id: '', text: '知识点' },
+  { id: '', text: '手写题' },
+  { id: '', text: 'Js函数' },
+  { id: '', text: 'Github' },
+  { id: '', text: '掘金' }
+])
+const navId = ref(-1)
 
 onMounted(() => {
-  getActiveId();
-});
+  getActiveId()
+})
 
 // 跳到个人页
 const onToUser = () => {
-  toPageQuery("/myUser");
-};
+  toPageQuery('/myUser')
+}
 
 //  跳到首页
 const onRefresh = () => {
-  toPageQuery("/home");
-};
+  toPageQuery('/home')
+}
 
 // 导航跳转
 const getActiveId = () => {
-  const index = JSON.parse(sessionStorage.getItem("navId") as string | any);
+  const index = JSON.parse(sessionStorage.getItem('navId') as string | any)
   if (index) {
-    navId.value = index;
+    navId.value = index
   }
-};
+}
 const onSetActiveId = (index: number) => {
-  navId.value = index;
-  sessionStorage.setItem("navId", JSON.stringify(index));
-};
+  navId.value = index
+  sessionStorage.setItem('navId', JSON.stringify(index))
+}
 </script>
-  <style scoped lang="scss">
+<style scoped lang="scss">
 .header {
   position: fixed;
   left: 0;
@@ -93,6 +95,7 @@ const onSetActiveId = (index: number) => {
   }
 
   .nav {
+    display: flex;
     ul {
       display: flex;
       font-weight: 600;
@@ -104,7 +107,7 @@ const onSetActiveId = (index: number) => {
           position: relative;
           transition: all 0.2s linear;
           &::after {
-            content: "";
+            content: '';
             position: absolute;
             left: 0;
             bottom: -8px;
@@ -127,6 +130,13 @@ const onSetActiveId = (index: number) => {
         }
       }
     }
+  }
+
+  .el-switch__core {
+    border: 2px solid #dcdfe6;
+    border-radius: 50%;
+    display: flex;
+    padding: 4px;
   }
 }
 

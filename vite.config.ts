@@ -1,34 +1,46 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import {resolve} from 'path';
-import Components from 'unplugin-vue-components/vite'
-import AutoImport from 'unplugin-auto-import/vite'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import vue from '@vitejs/plugin-vue';
+import path from 'path';
+import AutoImport from 'unplugin-auto-import/vite';
+import Icons from 'unplugin-icons/vite';
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
+import Components from 'unplugin-vue-components/vite';
+import { defineConfig } from 'vite';
 
-
+const pathSrc = path.resolve(__dirname, 'src')
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  server:{
-    host:true,
-    port:8080,
-    open:true,
+  server: {
+    host: true,
+    port: 8080,
+    open: true,
   },
   resolve: {
     alias: {
-      '@':resolve(__dirname, "src")
+      '@': pathSrc
     }
   },
   plugins: [
     vue(),
     AutoImport({
-      resolvers: [ElementPlusResolver()],
+      resolvers: [
+        ElementPlusResolver(),
+      ],
     }),
     Components({
       dirs: ['src/components/'],
-      resolvers: [ElementPlusResolver()],
-    })
+      resolvers: [
+        ElementPlusResolver()
+      ],
+    }),
+    Icons({
+      autoInstall: true,
+    }),
+
   ],
+
+
+
   build: {
     outDir: "dist",
     // 消除打包大小超过500kb警告
