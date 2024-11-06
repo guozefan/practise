@@ -2,24 +2,15 @@
   <div class="my-user">
     <div class="my-avatar">
       <div class="my-name">
-        <img
-          class="animate__animated animate__bounceInDown"
-          src="@/assets/img/avatar.jpg"
-          alt=""
-        />
-        <p
-          class="name animate__animated animate__jackInTheBox animate__delay_5ms"
-        >
+        <img class="animate__animated animate__bounceInDown" src="@/assets/img/avatar.jpg" alt="" />
+        <p class="name animate__animated animate__jackInTheBox animate__delay_5ms">
           GUO ZE FAN
         </p>
         <p class="introduce" ref="introduce"></p>
       </div>
     </div>
     <div class="navs">
-      <div
-        class="btn animate__animated animate__shakeX animate__slower animate__infinite"
-        @click="open"
-      >
+      <div class="btn animate__animated animate__shakeX animate__slower animate__infinite" @click="open">
         <span></span><span></span><span></span>
       </div>
       <ul :class="type ? 'unfold' : 'collapse'">
@@ -33,9 +24,8 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted } from "vue";
-import type { ComponentPublicInstance } from "vue";
 import { createRandom } from "@/utils/index";
+import { onMounted, ref } from "vue";
 const introduce = ref();
 const type = ref(false);
 const clause = ref<string[]>([
@@ -124,7 +114,7 @@ const open = () => {
     background-color: black;
     display: flex;
     justify-content: center;
-    align-items: center;
+    padding-top: 10%;
   }
 
   .my-name {
@@ -185,6 +175,7 @@ const open = () => {
       animation-name: breathe;
       animation-duration: 1500ms;
       animation-iteration-count: infinite;
+
       span {
         width: 0.05rem;
         height: 0.05rem;
@@ -201,6 +192,7 @@ const open = () => {
       bottom: 0;
       width: 0.5rem;
       height: 0.5rem;
+
       li {
         position: absolute;
         left: 0;
@@ -217,20 +209,25 @@ const open = () => {
         transition: 1s cubic-bezier(0, 0, 0, 1.25);
       }
     }
+
     .unfold li {
       &:nth-child(1) {
         transform: translate(-225%, -150%) scale(1);
       }
+
       &:nth-child(2) {
         transform: translate(-75%, -150%) scale(1);
       }
+
       &:nth-child(3) {
         transform: translate(75%, -150%) scale(1);
       }
+
       &:nth-child(4) {
         transform: translate(225%, -150%) scale(1);
       }
     }
+
     .collapse li {
       transform: translate(0, 0) scale(0);
     }
