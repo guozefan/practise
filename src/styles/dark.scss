@@ -1,0 +1,12 @@
+
+// 如果只想导入css变量
+@use "element-plus/theme-chalk/src/dark/css-vars.scss" as *;
+
+/* 整体暗色风格适配 */
+html.dark{
+  --text-color:#e5eaf3;
+  background-color: var(--el-bg-color);
+  --bg-color: var(--el-bg-color);
+  --border-color:#4c4d4f;
+  --bg-shadow-color:#fff;
+}

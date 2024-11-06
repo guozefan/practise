@@ -1,81 +1,25 @@
+@import './dark.scss';
 
 
-body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, /* structural elements 结构元素 */
-dl, dt, dd, ul, ol, li, /* list elements 列表元素 */
-pre, /* text formatting elements 文本格式元素 */
-fieldset, lengend, button, input, textarea, /* form elements 表单元素 */
-th, td { /* table elements 表格元素 */
-    margin: 0;
-    padding: 0;
-    
+:root {
+  --text-color:#303133;
+  --bg-color:#fff;
+  --border-color:#dcdfe6;
+  --tip-color:#b00ac8ed;
+  --purple-color: #9065db;
+  --header-height:55px;
+}
+
+:root {
+  --home-hero-name-color: transparent;
+  --home-hero-name-background: -webkit-linear-gradient( 120deg, #bd34fe 30%, #41d1ff )
 }
 
 
-
-address, cite, dfn, em, var { font-style: normal; } /* 将斜体扶正 */
-code, kbd, pre, samp, tt { font-family: "Courier New", Courier, monospace; } /* 统一等宽字体 */
-
-/* 重置列表元素 */
-ul, ol { list-style: none; }
-
-/* 重置文本格式元素 */
-a { text-decoration: none; }
-a:hover { text-decoration: underline; }
-
-/* 重置表单元素 */
-legend { color: #000; } /* for ie6 */
-fieldset, img { border: none; } /* img 搭车：让链接里的 img 无边框 */
-button, input, select, textarea {
-    font-size: 100%; /* 使得表单元素在 ie 下能继承字体大小 */
-}
-img{
-  -webkit-user-drag: none;
-}
-
-/* 重置表格元素 */
-table {
-border-collapse: collapse;
-border-spacing: 0;
-}
-
-/* 重置 hr */
-hr {
-    border: none;
-    height: 1px;
-}
-div{
-    box-sizing: border-box;
-}
-
-
-html {
-    font-size: calc(100vw / 19.2) !important;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    color: #2c3e50;
-  }
-
-  .text-tl {
-    font-size: 0.2rem;
-  }
-  .font-title1 {
-    font-size: 0.4rem;
-    font-weight: 600;
-    margin-bottom: 0.2rem;
-  }
-  .font-title2 {
-    font-size: 0.18rem;
-    margin-bottom: 0.1rem;
-  }
-  .font-title3 {
-    font-size: 0.16rem;
-    margin-bottom: 0.1rem;
-  }
-  .font-title4 {
-    font-size: 0.2rem;
-  }
-  .font-title5 {
-    font-size: 0.2rem;
+  ::view-transition-new(root),
+  ::view-transition-old(root){
+    animation: none;
+  } 
+  .dark::view-transition-old(root){
+    z-index: 9999;
   }

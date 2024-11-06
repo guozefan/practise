@@ -6,23 +6,27 @@
     </div>
     <div class="nav">
       <ul>
-        <li v-for="(item, index) in list" :key="index" :class="navId === index ? 'active' : ''" @click="onSetActiveId(index)">
-          <span>{{ item.text }}</span>
+        <li v-for="(item, index) in list" :key="index" :class="navId === index ? 'active' : ''"
+          @click="onSetActiveId(index)">
+          {{ item.text }}
         </li>
       </ul>
-      <div class="el-switch__core">
-        <Sunny style="font-size: 2em; width: 0.2rem; height: 0.2rem" />
-        <Moon style="font-size: 2em; width: 0.2rem; height: 0.2rem" />
+      <div class="topic-btn" @click="toggleDark">
+        <Moon v-if="isDark" style="font-size: 2em; width: 0.2rem; height: 0.2rem" />
+        <Sunny v-else style="font-size: 2em; width: 0.2rem; height: 0.2rem" />
       </div>
     </div>
   </header>
 </template>
 <script setup lang="ts">
-import { toPageQuery } from '@/utils/index'
-import { onMounted, ref } from 'vue'
+import useDark from '@/hook/useDark.ts';
+import { toPageQuery } from '@/utils/index';
+import { onMounted, ref } from 'vue';
 
-import Moon from '~icons/ep/moon'
-import Sunny from '~icons/ep/sunny'
+import Moon from '~icons/ep/moon';
+import Sunny from '~icons/ep/sunny';
+
+const { isDark, toggleDark } = useDark()
 
 const list = ref([
   { id: '', text: 'react' },
@@ -30,9 +34,10 @@ const list = ref([
   { id: '', text: '知识点' },
   { id: '', text: '手写题' },
   { id: '', text: 'Js函数' },
-  { id: '', text: 'Github' },
-  { id: '', text: '掘金' }
+  // { id: '', text: 'Github' },
+  // { id: '', text: '掘金' }
 ])
+
 const navId = ref(-1)
 
 onMounted(() => {
@@ -60,6 +65,7 @@ const onSetActiveId = (index: number) => {
   navId.value = index
   sessionStorage.setItem('navId', JSON.stringify(index))
 }
+
 </script>
 <style scoped lang="scss">
 .header {
@@ -70,24 +76,27 @@ const onSetActiveId = (index: number) => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.14rem 0.2rem;
-  background-color: #fff;
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
-  color: #5b5858;
+  padding: 0 0.32rem;
+  background-color: var(--bg-color);
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-color);
   box-sizing: border-box;
   z-index: 999;
 
   .logo {
     display: flex;
     align-items: center;
+    height: var(--header-height);
+
     img {
       width: 0.48rem;
       height: 0.48rem;
       border-radius: 50%;
       margin-right: 0.2rem;
-      border: solid 1px sandybrown;
+      border: solid 1px var(--tip-color);
       animation: turn 10s linear infinite;
     }
+
     p {
       font-weight: 600;
       font-size: 0.24rem;
@@ -96,47 +105,38 @@ const onSetActiveId = (index: number) => {
 
   .nav {
     display: flex;
+    align-items: center;
+    height: var(--header-height);
+
     ul {
       display: flex;
       font-weight: 600;
-      font-size: 0.17rem;
+      font-size: 0.18rem;
+      height: 100%;
+
       li {
-        margin: 0 0.1rem;
-        span {
-          display: inline-block;
-          position: relative;
-          transition: all 0.2s linear;
-          &::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -8px;
-            width: 100%;
-            height: 4px;
-            background: #b00ac8ed;
-            border-radius: 4px;
-            width: 0;
-            transition: width 0.36s;
-          }
-        }
-        &:hover span::after {
-          width: 100%;
-        }
+        padding: 0 0.1rem;
+        line-height: var(--header-height);
+        border-bottom: solid 2px transparent;
       }
+
       .active {
-        span:after {
-          width: 100%;
-          background-color: #b00ac8ed;
-        }
+        border-bottom-color: var(--tip-color);
       }
     }
   }
 
-  .el-switch__core {
-    border: 2px solid #dcdfe6;
+  .topic-btn {
+    border: 1px solid var(--border-color);
     border-radius: 50%;
     display: flex;
     padding: 4px;
+    margin-left: 0.2rem;
+
+    &:hover {
+      border-color: var(--tip-color);
+      box-shadow: 0 0 5px var(--tip-color);
+    }
   }
 }
 
