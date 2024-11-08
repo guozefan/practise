@@ -11,6 +11,7 @@
 <style scoped lang="scss">
 .main {
   padding-left: 3.4rem;
+  padding-top: var(--header-height);
 
   .btm-text {
     text-align: center;

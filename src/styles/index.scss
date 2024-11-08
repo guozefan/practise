@@ -7,7 +7,7 @@
   --border-color:#dcdfe6;
   --tip-color:#b00ac8ed;
   --purple-color: #9065db;
-  --header-height:55px;
+  --header-height:0.55rem;
 }
 
 :root {
@@ -22,4 +22,18 @@
   } 
   .dark::view-transition-old(root){
     z-index: 9999;
+  }
+
+  .min-container {
+    padding: 0.4rem 0.9rem 0.3rem;
+    position: relative;
+  }
+
+  .md-editor-catalog{
+    font-size: 0.18rem;
+    
+
+    .md-editor-catalog-active>span{
+      font-size: 0.24rem;
+    }
   }

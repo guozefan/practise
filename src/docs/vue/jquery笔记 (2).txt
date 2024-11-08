@@ -1,0 +1,180 @@
+$('div:last')     选择最后一个元素
+$('元素:first')  选择第一个元素
+$('元素:odd')  选择奇数行元素
+$('元素:even')  选择偶数行元素
+$('元素:eq(N)')   选择第N个元素    eq为负数从后往前找
+$('元素:nth-child(N)')  选择从下标为1开始的第N个元素
+$('元素:lt(L)')   选择小于L的元素	    不包括L元素
+$('元素:gt(N)')   选择大于N的元素   不包括N元素
+$('元素:lt(L):gt(N)')   选择小于L的元素大于N的元素  但不包括L 和N的元素
+$('元素:empty')     匹配不包含任何元素/文本的元素
+$('元素:parent')     匹配含有子元素或者文本元素
+$('元素:hidden')    选择不可见元素
+$('元素:visible')     选择可见元素
+
+
+$('元素').slice(L,N)   选择从L开始到N结束的元素
+$('元素[title=hellow]')   筛选满足title条件的 元素	针对自身
+$('元素.class名')    筛选满足class名条件的元素	针对自身
+$('元素').filter('class名')   筛选满足class条件的元素    针对自身
+$('元素').not('class名')   筛选不满足class条件的元素
+$('元素').筛选方法('元素') .end( )    结束筛选,返回筛选前的元素
+$('元素').has()   筛选含有指定元素/class/id等名的元素
+$('元素').find('元素/选择器名')    筛选 子孙元素  
+$('元素').children()    只筛选  子元素
+元素.offsetparent()找最近有定位的父级 ,如果没有找到就返回html
+
+
+
+
+先加载页面方法后加载js方法, $(document).ready(function(){})  简写(function(){})
+
+jq循环 $(元素).each( function (下标,对象 ){ })
+$.each ( 循环对象 , 函数对象{ } )
+forEach( ) { }
+兄弟选择器
+.next( ) 下一个兄弟节点
+.nextAll( ) 下面所有兄弟节点
+.prev( )  上一个兄弟节点
+.prevAll( )   上面所有的兄弟节点
+.siblings(class名)   所有的兄弟节点  但不包括自身   有参数筛选满足类名的  没有则是全部兄弟级
+
+
+DOM操作:
+ .Attr( )   可以设置系统属性和自定义属性
+removeAttr()  移除系统属性和自定义属性
+ .prop()    只能设置系统自有属性   class  id  title等
+removeProp()  移除属性
+			jq规则  一个参数为获取,两个参数是设置 获取属性   或者设置属性和属性值
+元素.addClass()        添加Class名
+元素.removeClass()       删除class
+元素.toggleClass()      切换class   如果有就删除  没有则添加
+.data('对象名',{对象})   数据绑定
+
+获取元素属性
+元素.css('width')       获取带单位的值
+元素.width() 	获取不带单位的值
+元素.innerWidth()   获取包含内边距的值
+元素.outerWidth()	获取包含内边距和边框的值
+元素.outerWidth(true)  获取包含内边距外边距和边框的值
+
+获取可视区
+$(widow).width()  可视区宽
+$(window).height() 可视区高
+$(document).width()   文档宽 
+$(document).height()   文档高
+
+在jq中 隐藏元素的 宽高也可也获取的
+
+
+
+元素.parent()   找包含着匹配元素的元素
+元素.parents()  找包含着匹配元素的元素集合     
+从父级开始找  如果父级符合参数需要,则返回父级,如果没有则继续向本级寻找
+元素.closest()     从本级开始逐步向上寻找符合参数父级  
+如果本级符合条件就返回自身  没有则继续向上
+parents和closest区别是 parents是从最大父级开始找而closest是从本级开始向上寻找
+
+元素.is ( 参数 )   判断元素是否符合参数  符合返回的是true 不符合false
+
+元素.html('')  清空标签内容
+元素.empty()   无需参数即可清空标签中内容
+元素.val()   获取当前value值
+
+
+创建一个元素直接   $('<元素>')
+$( Z元素 ).appendTo( N元素 )   往 N元素 中 插入 Z元素
+$(Z元素).append (N元素)     往 Z元素 中 追加 N元素
+
+Z元素.insertBefor( N元素 )  往N中的前面插入Z元素 
+Z元素.before(N元素)     Z元素前面是N元素
+
+他们的共同点是,前者是对Z元素的操作,  后者是对N元素的操作
+
+元素.clone(true )   克隆元素  无参数  默认不克隆行为 事件    若参数为true 则默认事件行为也会被克隆
+
+替换节点: replaceAll()
+		Z元素.replaceAll(N元素)  用Z元素替换N元素
+                replaceWidth()
+		Z元素.replaceWidth(N元素)  用N元素替换Z元素
+
+删除节点remove()      detach()
+	Z元素.remove(N元素)  删除元素 也会删除 事件及行为
+	Z元素.detach(N元素)   删除元素 但不会删除 事件及行为
+
+
+事件绑定方法: on('事件',函数对象)   bind('事件',函数对象 )
+参数:  元素.on('click',function(){})    可以绑定多个事件 事件名之间用空格隔开,不仅可以绑定系统事件也可以绑定自定义事件     
+
+触发自定义事件方法: trigger()
+参数: on('MyEvent',function( 传参 ){ 参数 }).trigger('MyEvent',[ 参数 ])
+
+解绑事件:   off    unbind    元素.off/unbind()
+
+position( )    获取当前元素相对父级元素的偏移值     Left 和Top
+offset( )   	    获取当前元素到当前视窗的相对值    Left和Top值
+
+
+事件委托方法: $(父级元素).(事件 ,  事件源(要执行的对象/子元素.function)
+
+事件委托的好处: 1、优化性能  2、后来添加的元素也有事件
+
+滚动条事件  on(scroll,function(){}) 
+scrollTop() 获取纵向滚动的值
+scrollLeft()   获取横向滚动值
+
+one事件 
+	one绑定的事件   只执行一次
+
+mousemove(移入事件)                 mouseenter(移入事件)
+mouseout(移出事件)                     mouseleave(移出事件)
+👆支持事件冒泡 		          👆不支持事件冒泡
+
+移入移出事件代替     元素.hover(  函数  (){  移入事件的回调函数  } )   .function(){  移出事件的回调函数 }  
+
+
+效果:
+	.hide() 隐藏函数      类如:display:none;     参数为数值,没有数值参数默认为没有过渡时间
+	.show() 显示函数      类似:  display:block    参数为数值,没有参数为默认没有过渡
+	.toggle()  切换显示隐藏函数       显示的元素切换隐藏  隐藏的元素显示为显示  
+
+	.fadeout()   淡出效果      参数为数值,没有参数默认没有过渡时间
+	.fadeIn()    淡入效果      参数同上
+	fadeToggle()    	切换淡入淡出效果     参数同上
+	fadeTo()      淡出效果 有三个参数,  第一个参数为过渡数值,第二个参数为透明度 第三个是回调函数
+	.slideUp()   向上卷起   参数:两个参数,第一个参数为数值,控制过渡时间,第二个参数为回调函数
+	.slideDown()   向下展开   参数同上
+	.slideToggle()  切换展开卷起效果   参数同上
+
+键值记录:
+	e.wich() 需要配合键盘时间使用
+
+	event对象 在jquery中     在函数中传参e后 单独一个e即可代表时间对象
+
+缓冲特效:
+	animate()
+        参数:  animate(对象,时间,缓冲风格,function(){})
+.stop()  停止当前运动函数    参数:当参数为true的时候所有运动都停止       当参数为两个true的时候立即到目标点   后续运动停止
+.delay()  延迟当前运动函数
+.Finish()  立即停止  所有运动立即到目标点( 高版本库才有的)
+
+元素.wrap('<div>')   参数:   给当前匹配到的每一个元素包上一个个div元素
+元素.wrapAll('<div>')   参数:给当前匹配到的所有元素 包上一个
+
+元素.wrapInner('<a>')     将元素中的内容用参数的元素 包起来
+子元素.unwrap()   删除父级,但不能删除body
+
+jq工具方法
+$.type()   用来检测数据类型   比原生js的功能强大
+$.trim()	用来去除首尾空格
+$.inArray() 	通过下标找字符,    类如原生Js中indeOf
+	$.inArray() 参数:$.inArray(下标值,[1,2,3,4,5,6])
+$.proxy()   
+	参数:$.proxy(需要改变的this对象, 目标对象)(参数)
+
+
+
+
+
+
+
