@@ -3,7 +3,7 @@
     <div class="scroll">
       <div class="scroll-item">
         <h5>本站必读</h5>
-        <el-menu default-active="2" class="el-menu-vertical-demo">
+        <el-menu class="el-menu-vertical-demo" router active-text-color="var(--tip-color)">
           <LaySidebarItem v-for="route in menus" :key="route.path" :item="route" />
         </el-menu>
       </div>
@@ -27,12 +27,13 @@ onMounted(() => {
 function getMdFiles() {
   try {
     const mdFiles = import.meta.glob('../../../docs/vue/*.md')
-    console.log(mdFiles)
     let names = []
     for (const filePath in mdFiles) {
       const fileName = filePath.split('/').pop().replace('.md', '')
-      names.push({ path: `/mdPreview?url=vue/${fileName}`, meta: { title: fileName } })
+      const url = encodeURIComponent(fileName)
+      names.push({ path: `/mdPreview?url=vue/${url}`, meta: { title: fileName } })
     }
+    console.log(names)
     menusPinia.setMenus(names)
   } catch (e) {
     console.log(e)

@@ -3,7 +3,7 @@
 import { MdCatalog, MdPreview } from 'md-editor-v3'
 import 'md-editor-v3/lib/preview.css'
 import 'md-editor-v3/lib/style.css'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
@@ -13,18 +13,27 @@ const editorRef = ref()
 
 const scrollElement = document.documentElement
 onMounted(() => {
-  console.log(route.query)
   if (route.query.url) {
-    urlToMd(route.query.url as string)
+    const url = decodeURIComponent(route.query.url)
+    urlToMd(url as string)
   }
 })
+
+watch(
+  () => route.query.url,
+  (newVal, oldVal) => {
+    if (newVal) {
+      const url = decodeURIComponent(newVal)
+      urlToMd(url as string)
+    }
+  }
+)
 
 // 动态导入md
 function urlToMd(url: string) {
   import(/* @vite-ignore */ '../../docs/' + url + '.md?raw')
     .then(e => {
       value.value = e.default
-      console.log('e', e, value.value)
     })
     .catch(error => {
       console.log('error', error)
