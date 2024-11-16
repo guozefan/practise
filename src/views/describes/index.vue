@@ -22,7 +22,7 @@
       </div>
       <div class="next" @click="onNext">》</div>
     </div>
-    <Lock />
+    <!-- <Lock /> -->
     <div class="coders-video">
       <video id="player" playsinline controls>
         <!-- <source src="../../assets/video/coders.mp4" type="video/mp4" /> -->
@@ -33,7 +33,7 @@
 <script setup lang="ts">
 import { getImg } from '@/utils/index'
 import { onMounted, reactive, ref } from 'vue'
-import Lock from './lock.vue'
+// import Lock from './lock.vue'
 
 const index = ref(3)
 const BASH_KEY = reactive({

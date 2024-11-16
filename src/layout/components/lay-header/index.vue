@@ -1,13 +1,12 @@
 <template>
-  <header class="header">
+  <header class="layout-header">
     <div class="logo">
       <img @click="onToUser" src="@/assets/img/avatar.jpg" alt="" />
       <p @click="onRefresh">线上笔记</p>
     </div>
     <div class="nav">
       <ul>
-        <li v-for="(item, index) in list" :key="index" :class="navId === index ? 'active' : ''"
-          @click="onSetActiveId(index)">
+        <li v-for="(item, index) in list" :key="index" :class="navId === index ? 'active' : ''" @click="onSetActiveId(index)">
           {{ item.text }}
         </li>
       </ul>
@@ -19,12 +18,12 @@
   </header>
 </template>
 <script setup lang="ts">
-import useDark from '@/hook/useDark.ts';
-import { toPageQuery } from '@/utils/index';
-import { onMounted, ref } from 'vue';
+import useDark from '@/hook/useDark.ts'
+import { toPageQuery } from '@/utils/index'
+import { onMounted, ref } from 'vue'
 
-import Moon from '~icons/ep/moon';
-import Sunny from '~icons/ep/sunny';
+import Moon from '~icons/ep/moon'
+import Sunny from '~icons/ep/sunny'
 
 const { isDark, toggleDark } = useDark()
 
@@ -33,7 +32,7 @@ const list = ref([
   { id: '', text: 'vue' },
   { id: '', text: '知识点' },
   { id: '', text: '手写题' },
-  { id: '', text: 'Js函数' },
+  { id: '', text: 'Js函数' }
   // { id: '', text: 'Github' },
   // { id: '', text: '掘金' }
 ])
@@ -65,10 +64,9 @@ const onSetActiveId = (index: number) => {
   navId.value = index
   sessionStorage.setItem('navId', JSON.stringify(index))
 }
-
 </script>
 <style scoped lang="scss">
-.header {
+.layout-header {
   position: fixed;
   left: 0;
   top: 0;

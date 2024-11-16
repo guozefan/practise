@@ -16,6 +16,8 @@ npm i -D unplugin-icons npm i -D @iconify/json
 npm install codemirror-editor-vue3 codemirror@5.x -S
 # 安装md插件，便于md文件展示
 yarn add md-editor-v3
+# 安装pinia状态管理
+yarn add pinia
 # 使用typeitd打字机效果，最新版本可能会有问题，不推荐npm下载
  <script src="https://unpkg.com/typeit@8.0.1/dist/index.umd.js"></script>
  参考资料：https://www.typeitjs.com/docs/vanilla/usage/

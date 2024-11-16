@@ -13,10 +13,9 @@ const editorRef = ref()
 
 const scrollElement = document.documentElement
 onMounted(() => {
+  console.log(route.query)
   if (route.query.url) {
     urlToMd(route.query.url as string)
-  } else {
-    urlToMd('vue/001')
   }
 })
 
@@ -25,6 +24,7 @@ function urlToMd(url: string) {
   import(/* @vite-ignore */ '../../docs/' + url + '.md?raw')
     .then(e => {
       value.value = e.default
+      console.log('e', e, value.value)
     })
     .catch(error => {
       console.log('error', error)

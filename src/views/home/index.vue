@@ -1,7 +1,5 @@
 <template>
-  <Header />
-  <Sidebar />
-  <Main />
+  <div>首页</div>
 </template>
 <script setup lang="ts">
 // let nums1 = [1, 2, 3, 0, 0, 0],
