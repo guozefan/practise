@@ -1,20 +1,18 @@
 <template>
   <aside class="aside-nav">
+    <h5 class="nav-title">本站必读</h5>
     <div class="scroll">
-      <div class="scroll-item">
-        <h5>本站必读</h5>
-        <el-menu class="el-menu-vertical-demo" router active-text-color="var(--tip-color)">
-          <LaySidebarItem v-for="route in menus" :key="route.path" :item="route" />
-        </el-menu>
-      </div>
+      <el-menu class="el-menu-vertical-demo" router active-text-color="var(--tip-color)">
+        <LaySidebarItem v-for="route in menus" :key="route.path" :item="route" />
+      </el-menu>
     </div>
   </aside>
 </template>
 <script setup lang="ts">
-import { menusStroe } from '@/store/menus'
-import { storeToRefs } from 'pinia'
-import { onMounted } from 'vue'
-import LaySidebarItem from '../lay-sidebar/components/SidebarItem.vue'
+import { menusStroe } from '@/store/menus';
+import { storeToRefs } from 'pinia';
+import { onMounted } from 'vue';
+import LaySidebarItem from '../lay-sidebar/components/SidebarItem.vue';
 const menusPinia = menusStroe()
 const { menus } = storeToRefs(menusPinia)
 
@@ -24,6 +22,7 @@ onMounted(() => {
   getMdFiles()
 })
 
+// 获取md格式的文件
 function getMdFiles() {
   try {
     const mdFiles = import.meta.glob('../../../docs/vue/*.md')
@@ -33,7 +32,7 @@ function getMdFiles() {
       const url = encodeURIComponent(fileName)
       names.push({ path: `/mdPreview?url=vue/${url}`, meta: { title: fileName } })
     }
-    console.log(names)
+    // console.log(names)
     menusPinia.setMenus(names)
   } catch (e) {
     console.log(e)
@@ -48,27 +47,23 @@ function getMdFiles() {
   width: 3.4rem;
   height: calc(100% - 0.76rem);
   overflow: hidden;
+  padding-left: 0.2rem;
+  display: flex;
+  flex-direction: column;
 
   .scroll {
-    height: 100%;
+    flex: 1;
     overflow-y: scroll;
   }
 
-  .scroll-item {
-    padding-left: 0.2rem;
-    &:first-child {
-      margin-top: 0.2rem;
-    }
-    h5 {
-      color: #1b1515;
-      font-size: 0.22rem;
-      margin-bottom: 0.1rem;
-    }
-    p {
-      font-size: 0.16rem;
-      padding: 0.05rem 0.2rem;
-      line-height: 1.4;
-    }
+  .el-menu {
+    border-right: none;
+  }
+
+  .nav-title {
+    color: var(--text-color);
+    font-size: 0.22rem;
+    margin-bottom: 0.1rem;
   }
 }
 </style>
