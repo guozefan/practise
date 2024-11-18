@@ -10,7 +10,7 @@
           {{ item.text }}
         </li>
       </ul>
-      <div class="topic-btn" @click="toggleDark">
+      <div class="topic-btn" @click="handleToggleDark">
         <Moon v-if="isDark" style="font-size: 2em; width: 0.2rem; height: 0.2rem" />
         <Sunny v-else style="font-size: 2em; width: 0.2rem; height: 0.2rem" />
       </div>
@@ -18,12 +18,17 @@
   </header>
 </template>
 <script setup lang="ts">
-import useDark from '@/hook/useDark.ts'
-import { toPageQuery } from '@/utils/index'
-import { onMounted, ref } from 'vue'
+import useDark from '@/hook/useDark.ts';
+import { themeStroe } from '@/store/useTheme';
+import { toPageQuery } from '@/utils/index';
+import { onMounted, ref } from 'vue';
 
-import Moon from '~icons/ep/moon'
-import Sunny from '~icons/ep/sunny'
+
+const theme = themeStroe()
+
+
+import Moon from '~icons/ep/moon';
+import Sunny from '~icons/ep/sunny';
 
 const { isDark, toggleDark } = useDark()
 
@@ -42,6 +47,11 @@ const navId = ref(-1)
 onMounted(() => {
   getActiveId()
 })
+
+function handleToggleDark(e:any){
+  toggleDark(e)
+  theme.setTheme(isDark.value?'dark':'light')
+}
 
 // 跳到个人页
 const onToUser = () => {

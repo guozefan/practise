@@ -1,5 +1,6 @@
 <script setup lang="ts">
 // import test from '@/docs/vue/001.md?raw'
+import { themeStroe } from '@/store/useTheme'
 import { MdCatalog, MdPreview } from 'md-editor-v3'
 import 'md-editor-v3/lib/preview.css'
 import 'md-editor-v3/lib/style.css'
@@ -7,6 +8,7 @@ import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
+const theme = themeStroe()
 
 const value = ref('')
 const editorRef = ref()
@@ -44,10 +46,10 @@ function urlToMd(url: string) {
 <template>
   <div class="min-container md-preview-container">
     <div class="scroll-container">
-      <MdPreview editorId="preview-onl" :modelValue="value" />
+      <MdPreview editorId="preview-onl" :modelValue="value" :theme="theme.theme" />
     </div>
     <div class="aside">
-      <MdCatalog ref="editorRef" editorId="preview-onl" :scrollElementOffsetTop="80" :scrollElement="scrollElement" />
+      <MdCatalog ref="editorRef" editorId="preview-onl" :scrollElementOffsetTop="80" :scrollElement="scrollElement" :theme="theme.theme" />
     </div>
   </div>
 </template>

@@ -9,7 +9,7 @@ type DarkResultProps = {
 export default function useDark(): DarkResultProps {
   const isDark = ref(false)
   const toggleDark = (event: MouseEvent) => {
-    isDark.value = !isDark.value
+    isDark.value = !isDarkFn()
     const transition = document.startViewTransition(() => {
       if (isDark.value) {
         document.documentElement.classList.add('dark')
@@ -25,6 +25,12 @@ export default function useDark(): DarkResultProps {
       const clipPath = [`circle(0px at ${clientX}px ${clientY}px)`, `circle(${radius}px at ${clientX}px ${clientY}px)`]
       document.documentElement.animate({ clipPath: isDark.value ? clipPath.reverse() : clipPath }, { duration: 500, pseudoElement: isDark.value ? '::view-transition-old(root)' : '::view-transition-new(root)' })
     })
+  }
+  /**
+   * 当前主题色是否是暗色
+   */
+  function isDarkFn() {
+    return document.documentElement.classList.contains('dark')
   }
 
   return {

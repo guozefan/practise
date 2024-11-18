@@ -8,6 +8,18 @@
   --tip-color:#b00ac8ed;
   --purple-color: #9065db;
   --header-height:0.55rem;
+ 
+
+
+ .md-editor-preview blockquote{
+    --md-theme-quote-border:5px solid var(--tip-color) ;
+  }
+  .md-editor-catalog-active > span{
+    color: var(--tip-color);
+  }
+  .md-editor-catalog-link span:hover{
+    color: var(--tip-color);
+  }
 }
 
 :root {
@@ -20,8 +32,9 @@
   ::view-transition-old(root){
     animation: none;
   } 
+
   .dark::view-transition-old(root){
-    z-index: 9999;
+    z-index: 999999999999;
   }
 
   .min-container {
