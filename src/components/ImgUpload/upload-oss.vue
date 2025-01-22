@@ -26,14 +26,14 @@ const imageUrl = ref("");
 
 const ossData = ref({
   OSSAccessKeyId: "LTAI5tMhbSq1LhCFF752ncvi",
-  expire: "1737615543",
+  expire: "1737623414",
   policy:
-    "eyJleHBpcmF0aW9uIjoiMjAyNS0wMS0yM1QwNjo1OTowMi45NDNaIiwiY29uZGl0aW9ucyI6W1siY29udGVudC1sZW5ndGgtcmFuZ2UiLDAsMTA0ODU3NjAwMF1dfQ==",
-  signature: "GH0DdWyskFJNddjZasziDpUqHxo=",
+    "eyJleHBpcmF0aW9uIjoiMjAyNS0wMS0yM1QwOToxMDoxNC41MjlaIiwiY29uZGl0aW9ucyI6W1siY29udGVudC1sZW5ndGgtcmFuZ2UiLDAsMTA0ODU3NjAwMF1dfQ==",
+  signature: "XD4kL7VFXFXtjJ4rrEU09CvosFk=",
   accessid: "LTAI5tMhbSq1LhCFF752ncvi",
   host: "http://webskys.oss-cn-beijing.aliyuncs.com",
   callback:
-    "eyJjYWxsYmFja1VybCI6Imh0dHA6Ly93d3cuc3lraGVyby5jb20vdXBsb2FkL3Jlc3VsdCIsImNhbGxiYWNrQm9keSI6ImZpbGVuYW1lPSR7b2JqZWN0fSZzaXplPSR7c2l6ZX0mbWltZVR5cGU9JHttaW1lVHlwZX0maGVpZ2h0PSR7aW1hZ2VJbmZvLmhlaWdodH0md2lkdGg9JHtpbWFnZUluZm8ud2lkdGh9IiwiY2FsbGJhY2tCb2R5VHlwZSI6ImFwcGxpY2F0aW9uL3gtd3d3LWZvcm0tdXJsZW5jb2RlZCJ9",
+    "eyJjYWxsYmFja1VybCI6Imh0dHBzOi8vd3d3LnN5a2hlcm8uY29tL2FsaXl1bi9vc3MvY2FsbGJhY2siLCJjYWxsYmFja0JvZHkiOiJmaWxlbmFtZT0ke29iamVjdH0mc2l6ZT0ke3NpemV9Jm1pbWVUeXBlPSR7bWltZVR5cGV9JmhlaWdodD0ke2ltYWdlSW5mby5oZWlnaHR9JndpZHRoPSR7aW1hZ2VJbmZvLndpZHRofSIsImNhbGxiYWNrQm9keVR5cGUiOiJhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQifQ==",
   dir: "webskys-files/",
   key: "webskys-files/${filename}",
 });
