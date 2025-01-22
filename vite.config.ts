@@ -14,6 +14,14 @@ export default defineConfig({
     host: true,
     port: 8080,
     open: true,
+    cors: true, // 允许跨域
+    proxy: {
+      '/apiTest': { //apiTest是自行设置的请求前缀，按照这个来匹配请求，有这个字段的请求，就会进到代理来
+        target: 'http://localhost:3000',
+        changeOrigin: true, //是否跨域
+        rewrite: (path) => path.replace('/apiTest', '')
+      }
+    }
   },
   resolve: {
     alias: {

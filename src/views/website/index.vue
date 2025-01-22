@@ -28,15 +28,191 @@
         </li>
       </ul>
     </div>
+    <el-dialog
+      v-model="dialogVisible"
+      title="新增信息"
+      width="500"
+      :before-close="handleClose"
+    >
+      <el-form
+        ref="ruleFormRef"
+        style="max-width: 600px"
+        :model="ruleForm"
+        :rules="rules"
+        label-width="auto"
+        class="demo-ruleForm"
+        :size="formSize"
+        status-icon
+      >
+        <el-form-item label="网站标题" prop="name">
+          <el-input v-model="ruleForm.name" />
+        </el-form-item>
+
+        <el-form-item label="网站类型" prop="region">
+          <el-select
+            v-model="value"
+            multiple
+            filterable
+            allow-create
+            default-first-option
+            :reserve-keyword="false"
+            placeholder="Choose tags for your article"
+            style="width: 240px"
+          >
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="网站描述" prop="desc">
+          <el-input v-model="ruleForm.desc" />
+        </el-form-item>
+        <el-form-item label="网站图片" prop="desc">
+          <ImgUploadOss />
+        </el-form-item>
+
+        <!-- <el-form-item>
+          <el-button type="primary" @click="submitForm(ruleFormRef)">
+            Create
+          </el-button>
+          <el-button @click="resetForm(ruleFormRef)">Reset</el-button>
+        </el-form-item> -->
+      </el-form>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="dialogVisible = false">取消</el-button>
+          <el-button type="primary" @click="dialogVisible = false">
+            确定
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
   </main>
 </template>
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import { website } from "@/assets/data/website";
 import { getImg } from "@/utils/index";
+import type { UploadProps } from "element-plus";
+import ImgUploadOss from "@/components/ImgUpload/upload-oss.vue";
+
+const dialogVisible = ref(true);
+const ruleForm = ref({
+  name: "",
+  region: "",
+  date1: "",
+  date2: "",
+  delivery: false,
+  type: [],
+  resource: "",
+  desc: "",
+  imageUrl: "",
+});
+
+const rules = reactive<FormRules<RuleForm>>({
+  name: [
+    { required: true, message: "Please input Activity name", trigger: "blur" },
+    { min: 3, max: 5, message: "Length should be 3 to 5", trigger: "blur" },
+  ],
+  region: [
+    {
+      required: true,
+      message: "Please select Activity zone",
+      trigger: "change",
+    },
+  ],
+  count: [
+    {
+      required: true,
+      message: "Please select Activity count",
+      trigger: "change",
+    },
+  ],
+  date1: [
+    {
+      type: "date",
+      required: true,
+      message: "Please pick a date",
+      trigger: "change",
+    },
+  ],
+  date2: [
+    {
+      type: "date",
+      required: true,
+      message: "Please pick a time",
+      trigger: "change",
+    },
+  ],
+  location: [
+    {
+      required: true,
+      message: "Please select a location",
+      trigger: "change",
+    },
+  ],
+  type: [
+    {
+      type: "array",
+      required: true,
+      message: "Please select at least one activity type",
+      trigger: "change",
+    },
+  ],
+  resource: [
+    {
+      required: true,
+      message: "Please select activity resource",
+      trigger: "change",
+    },
+  ],
+  desc: [
+    { required: true, message: "Please input activity form", trigger: "blur" },
+  ],
+});
+
+const options = [
+  {
+    value: "HTML",
+    label: "HTML",
+  },
+  {
+    value: "CSS",
+    label: "CSS",
+  },
+  {
+    value: "JavaScript",
+    label: "JavaScript",
+  },
+];
 
 const onClick = (row: any) => {
   window.open(row.url, "_blank");
+};
+
+function handleClose() {
+  dialogVisible.value = false;
+}
+
+const handleAvatarSuccess: UploadProps["onSuccess"] = (
+  response,
+  uploadFile
+) => {
+  ruleForm.imageUrl = URL.createObjectURL(uploadFile.raw!);
+};
+
+const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
+  if (rawFile.type !== "image/jpeg") {
+    ElMessage.error("Avatar picture must be JPG format!");
+    return false;
+  } else if (rawFile.size / 1024 / 1024 > 2) {
+    ElMessage.error("Avatar picture size can not exceed 2MB!");
+    return false;
+  }
+  return true;
 };
 </script>
 <style scoped lang="scss">
