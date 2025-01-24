@@ -93,6 +93,7 @@
   </main>
 </template>
 <script setup lang="ts">
+import { addDialog } from "@/components/ReDialog";
 import { ref, reactive, onMounted } from "vue";
 import { website } from "@/assets/data/website";
 import { getImg } from "@/utils/index";

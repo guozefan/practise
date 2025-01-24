@@ -38,6 +38,7 @@ declare module 'vue' {
     Header: typeof import('./src/components/Header/index.vue')['default']
     Main: typeof import('./src/components/Main/index.vue')['default']
     MdPreview: typeof import('./src/components/MdPreview/index.vue')['default']
+    ReDialog: typeof import('./src/components/ReDialog/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Select: typeof import('./src/components/ReIcon/src/Select.vue')['default']
