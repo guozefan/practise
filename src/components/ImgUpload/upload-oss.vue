@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { ElMessage } from "element-plus";
 import { Plus } from "@element-plus/icons-vue";
 import { message } from "@/utils/message";
+import { getAliOss } from "@/api/upload/oss.ts";
 
 import type { UploadProps } from "element-plus";
 
@@ -26,15 +27,13 @@ const imageUrl = ref(props.modelValue);
 
 const ossData = ref({
   OSSAccessKeyId: "LTAI5tMhbSq1LhCFF752ncvi",
-  expire: "1737623414",
-  policy:
-    "eyJleHBpcmF0aW9uIjoiMjAyNS0wMS0yM1QwOToxMDoxNC41MjlaIiwiY29uZGl0aW9ucyI6W1siY29udGVudC1sZW5ndGgtcmFuZ2UiLDAsMTA0ODU3NjAwMF1dfQ==",
-  signature: "XD4kL7VFXFXtjJ4rrEU09CvosFk=",
-  accessid: "LTAI5tMhbSq1LhCFF752ncvi",
-  host: "http://webskys.oss-cn-beijing.aliyuncs.com",
-  callback:
-    "eyJjYWxsYmFja1VybCI6Imh0dHBzOi8vd3d3LnN5a2hlcm8uY29tL2FsaXl1bi9vc3MvY2FsbGJhY2siLCJjYWxsYmFja0JvZHkiOiJmaWxlbmFtZT0ke29iamVjdH0mc2l6ZT0ke3NpemV9Jm1pbWVUeXBlPSR7bWltZVR5cGV9JmhlaWdodD0ke2ltYWdlSW5mby5oZWlnaHR9JndpZHRoPSR7aW1hZ2VJbmZvLndpZHRofSIsImNhbGxiYWNrQm9keVR5cGUiOiJhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQifQ==",
-  dir: "webskys-files/",
+  expire: "",
+  policy: "",
+  signature: "",
+  accessid: "",
+  host: "",
+  callback: "",
+  dir: "",
   key: "webskys-files/${filename}",
 });
 
@@ -52,7 +51,7 @@ const handleAvatarSuccess: UploadProps["onSuccess"] = (
 };
 
 // 文件上传前校验
-const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
+const beforeAvatarUpload: UploadProps["beforeUpload"] = async (rawFile) => {
   let types = ["image/jpeg", "image/jpg", "image/png"];
   const isImage = types.includes(rawFile.type);
   const size = rawFile.size / 1024 / 1024;
@@ -67,8 +66,19 @@ const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
     });
     return false;
   }
+  await getAliOssData();
   return true;
 };
+
+// 获取阿里云OSS数据
+async function getAliOssData(params: type) {
+  try {
+    const res = await getAliOss(params);
+    ossData.value = { ...ossData.value, ...res };
+  } catch (err) {
+    console.log(err);
+  }
+}
 </script>
 
 <template>
