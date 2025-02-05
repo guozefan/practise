@@ -13,6 +13,7 @@
     "@pureadmin/utils": "^2.5.0",
     "@types/node": "^20.10.7",
     "@types/qs": "^6.9.18",
+    "@vitejs/plugin-vue-jsx": "^4.1.1",
     "animate.css": "^4.1.1",
     "axios": "^1.7.9",
     "codemirror-editor-vue3": "^2.4.1",

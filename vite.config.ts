@@ -5,6 +5,7 @@ import Icons from 'unplugin-icons/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import Components from 'unplugin-vue-components/vite';
 import { defineConfig } from 'vite';
+import vueJsx from "@vitejs/plugin-vue-jsx";
 
 const pathSrc = path.resolve(__dirname, 'src')
 
@@ -30,6 +31,7 @@ export default defineConfig({
   },
   plugins: [
     vue(),
+    vueJsx(),
     AutoImport({
       resolvers: [
         ElementPlusResolver(),

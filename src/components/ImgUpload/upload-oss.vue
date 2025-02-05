@@ -22,7 +22,7 @@ const props = defineProps({
   },
 });
 
-const imageUrl = ref("");
+const imageUrl = ref(props.modelValue);
 
 const ossData = ref({
   OSSAccessKeyId: "LTAI5tMhbSq1LhCFF752ncvi",
