@@ -34,20 +34,16 @@ const ossData = ref({
   host: "",
   callback: "",
   dir: "",
-  key: "webskys-files/${filename}",
+  key: "",
 });
 
 const emit = defineEmits(["update:modelValue"]);
 
-const updateValue = (value: string) => {
-  emit("update:modelValue", value);
-};
-
-const handleAvatarSuccess: UploadProps["onSuccess"] = (
-  response,
-  uploadFile
-) => {
-  imageUrl.value = URL.createObjectURL(uploadFile.raw!);
+const handleAvatarSuccess: UploadProps["onSuccess"] = (response) => {
+  const url = ossData.value.host + "/" + response.data.filename;
+  console.log(url);
+  imageUrl.value = url;
+  emit("update:modelValue", url);
 };
 
 // 文件上传前校验
@@ -71,9 +67,9 @@ const beforeAvatarUpload: UploadProps["beforeUpload"] = async (rawFile) => {
 };
 
 // 获取阿里云OSS数据
-async function getAliOssData(params: type) {
+async function getAliOssData() {
   try {
-    const res = await getAliOss(params);
+    const res = await getAliOss();
     ossData.value = { ...ossData.value, ...res };
   } catch (err) {
     console.log(err);
