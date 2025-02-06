@@ -8,7 +8,7 @@ type Result = {
 };
 
 // 导出一个函数getAliOss，用于上传文件到阿里云OSS
-export const getAliOss = () => {
+export const getAliOss = (data?: object) => {
 	// 发送post请求，请求地址为/upload/aliOss，请求参数为data
-	return http.request<Result>("get", "/upload/aliOss");
+	return http.request<Result>("get", "/upload/aliOss", data);
 };

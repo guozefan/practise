@@ -62,18 +62,30 @@ const beforeAvatarUpload: UploadProps["beforeUpload"] = async (rawFile) => {
     });
     return false;
   }
-  await getAliOssData();
+  const originalName = generateFileName(rawFile.name);
+  console.log(originalName);
+  await getAliOssData({ customKey: originalName });
   return true;
 };
 
 // 获取阿里云OSS数据
-async function getAliOssData() {
+async function getAliOssData(params: any) {
   try {
-    const res = await getAliOss();
+    const res = await getAliOss(params);
     ossData.value = { ...ossData.value, ...res };
   } catch (err) {
     console.log(err);
   }
+}
+
+// 生成文件名函数
+function generateFileName(originalName: string) {
+  // 生成随机字符串
+  const uuid = Math.random().toString(36).slice(-8);
+  // 获取当前时间戳
+  const timestamp = new Date().getTime();
+  const ext = originalName.split(".").pop(); // 获取文件扩展名
+  return `webskys-files/${timestamp}_${uuid}.${ext}`;
 }
 </script>
 
