@@ -11,7 +11,7 @@ const route = useRoute()
 </script>
 <style scoped lang="scss">
 .app-main {
-  padding-left: 3.4rem;
+  padding-left: 3.6rem;
   padding-top: var(--header-height);
 }
 </style>

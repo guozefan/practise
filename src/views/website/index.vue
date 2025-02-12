@@ -1,48 +1,39 @@
 <script setup lang="ts">
-import { addDialog } from "@/components/ReDialog";
-import { ref, reactive, onMounted } from "vue";
-import { website } from "@/assets/data/website";
-import { getImg } from "@/utils/index";
-import type { UploadProps } from "element-plus";
-import editForm from "./form/index.vue";
+import { addDialog } from '@/components/ReDialog'
+import { ref, reactive, onMounted } from 'vue'
+import { website } from '@/assets/data/website'
+import { getImg } from '@/utils/index'
+import type { UploadProps } from 'element-plus'
+import editForm from './form/index.vue'
+import { menusStroe } from '@/store/menus'
+const menusPinia = menusStroe()
 
-const dialogVisible = ref(false);
+const dialogVisible = ref(false)
 const ruleForm = ref({
-  name: "",
-  region: "",
-  date1: "",
-  date2: "",
+  name: '',
+  region: '',
+  date1: '',
+  date2: '',
   delivery: false,
   type: [],
-  resource: "",
-  desc: "",
-  imageUrl: "",
-});
+  resource: '',
+  desc: '',
+  imageUrl: ''
+})
+
 const onClick = (row: any) => {
-  window.open(row.url, "_blank");
-};
+  window.open(row.url, '_blank')
+}
 
-const handleAvatarSuccess: UploadProps["onSuccess"] = (
-  response,
-  uploadFile
-) => {
-  ruleForm.imageUrl = URL.createObjectURL(uploadFile.raw!);
-};
-
-const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
-  if (rawFile.type !== "image/jpeg") {
-    ElMessage.error("Avatar picture must be JPG format!");
-    return false;
-  } else if (rawFile.size / 1024 / 1024 > 2) {
-    ElMessage.error("Avatar picture size can not exceed 2MB!");
-    return false;
-  }
-  return true;
-};
+onMounted(() => {
+  const menus = website.map(item => {
+    return { meta: { title: item.title } }
+  })
+  menusPinia.setMenus(menus)
+})
 </script>
 <template>
-  <Header />
-  <main>
+  <div class="min-container" style="width: 100%">
     <el-button @click="dialogVisible = true">新增</el-button>
     <editForm v-model="dialogVisible" />
     <div class="card-item" v-for="item in website" :key="item.id">
@@ -50,19 +41,11 @@ const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
       <ul>
         <li v-for="row in item.list" :key="row.id" @click="onClick(row)">
           <div class="img">
-            <img
-              :src="getImg(row.img ? 'img/' + row.img : 'img/emoji.png')"
-              alt=""
-            />
+            <img :src="getImg(row.img ? 'img/' + row.img : 'img/emoji.png')" alt="" />
           </div>
           <div class="text">
             <p class="title">{{ row.title }}</p>
-            <el-tooltip
-              class="sub-title"
-              effect="dark"
-              style="width: 100px"
-              placement="top"
-            >
+            <el-tooltip class="sub-title" effect="dark" style="width: 100px" placement="top">
               <p class="sub-title">{{ row.text }}</p>
               <template #content>
                 <p class="sub-text">{{ row.text }}</p>
@@ -72,7 +55,7 @@ const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
         </li>
       </ul>
     </div>
-  </main>
+  </div>
 </template>
 
 <style scoped lang="scss">

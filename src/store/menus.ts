@@ -6,12 +6,16 @@ export const menusStroe = defineStore('menus', {
     return {
       // 用于初始化空列表
       menus: [] as menuType[],
+      activeId: '' as string,
     }
   },
   actions: {
     setMenus(menus: menuType[]) {
       this.menus = menus
     },
+    setActiveId(id: string) {
+      this.activeId = id
+    }
   }
 })
 

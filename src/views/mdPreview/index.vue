@@ -61,12 +61,13 @@ function urlToMd(url: string) {
   display: flex;
   justify-content: space-between;
   .scroll-container {
-    width: 860px;
+    width: 60%;
   }
   .aside {
-    width: 460px;
+    width: 30%;
     position: relative;
     top: 0.4rem;
+    right: 10%;
     .md-editor-catalog {
       position: sticky;
       top: calc(var(--header-height) + 0.2rem);
