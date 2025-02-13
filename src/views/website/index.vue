@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { addDialog } from '@/components/ReDialog'
-import { ref, reactive, onMounted } from 'vue'
+import { addWebSiteInfo } from '@/api/webSite'
 import { website } from '@/assets/data/website'
-import { getImg } from '@/utils/index'
-import type { UploadProps } from 'element-plus'
-import editForm from './form/index.vue'
 import { menusStroe } from '@/store/menus'
+import { getImg } from '@/utils/index'
+import { onMounted, ref } from 'vue'
+import editForm from './form/index.vue'
 const menusPinia = menusStroe()
 
 const dialogVisible = ref(false)
@@ -25,6 +24,34 @@ const onClick = (row: any) => {
   window.open(row.url, '_blank')
 }
 
+function allDate() {
+  const arr = website
+    .map(item => {
+      return item.list.map(row => {
+        return {
+          title: row.title,
+          desc: row.text,
+          url: row.url,
+          logo: row.img,
+          type: item.title
+        }
+      })
+    })
+    .flat()
+  let index = 0
+  sendInfo()
+  async function sendInfo() {
+    const { code } = await addWebSiteInfo(arr[index])
+    if (code == 200) {
+      index++
+      if (index < arr.length) {
+        sendInfo()
+      }
+    }
+  }
+  console.log('allDate', website, arr)
+}
+
 onMounted(() => {
   const menus = website.map(item => {
     return { meta: { title: item.title } }
@@ -35,6 +62,7 @@ onMounted(() => {
 <template>
   <div class="min-container" style="width: 100%">
     <el-button @click="dialogVisible = true">新增</el-button>
+    <el-button @click="allDate">批量添加</el-button>
     <editForm v-model="dialogVisible" />
     <div class="card-item" v-for="item in website" :key="item.id">
       <h3>{{ item.title }}</h3>
