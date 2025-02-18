@@ -1,63 +1,64 @@
 <script setup lang="ts">
-import { addWebSiteInfo } from '@/api/webSite'
-import { website } from '@/assets/data/website'
-import { menusStroe } from '@/store/menus'
-import { getImg } from '@/utils/index'
-import { onMounted, ref } from 'vue'
-import editForm from './form/index.vue'
-const menusPinia = menusStroe()
+import { addWebSiteInfo } from "@/api/webSite";
+import { website } from "@/assets/data/website";
+import { menusStroe } from "@/store/menus";
+import { getImg } from "@/utils/index";
+import { onMounted, ref } from "vue";
+import editForm from "./form/index.vue";
+const menusPinia = menusStroe();
 
-const dialogVisible = ref(false)
+const dialogVisible = ref(false);
 const ruleForm = ref({
-  name: '',
-  region: '',
-  date1: '',
-  date2: '',
+  name: "",
+  region: "",
+  date1: "",
+  date2: "",
   delivery: false,
   type: [],
-  resource: '',
-  desc: '',
-  imageUrl: ''
-})
+  resource: "",
+  desc: "",
+  imageUrl: "",
+});
 
 const onClick = (row: any) => {
-  window.open(row.url, '_blank')
-}
+  window.open(row.url, "_blank");
+};
 
 function allDate() {
   const arr = website
-    .map(item => {
-      return item.list.map(row => {
+    .map((item) => {
+      return item.list.map((row) => {
         return {
           title: row.title,
           desc: row.text,
-          url: row.url,
-          logo: row.img,
-          type: item.title
-        }
-      })
+          urls: row.url,
+          logo: row.img ? row.img : "emoji.png",
+          type: item.title,
+        };
+      });
     })
-    .flat()
-  let index = 0
-  sendInfo()
+    .flat();
+  let index = 68;
+  // sendInfo();
   async function sendInfo() {
-    const { code } = await addWebSiteInfo(arr[index])
+    const { code } = await addWebSiteInfo(arr[index]);
     if (code == 200) {
-      index++
+      index++;
+      console.log(index, arr.length);
       if (index < arr.length) {
-        sendInfo()
+        sendInfo();
       }
     }
   }
-  console.log('allDate', website, arr)
+  console.log("allDate", website, arr);
 }
 
 onMounted(() => {
-  const menus = website.map(item => {
-    return { meta: { title: item.title } }
-  })
-  menusPinia.setMenus(menus)
-})
+  const menus = website.map((item) => {
+    return { meta: { title: item.title } };
+  });
+  menusPinia.setMenus(menus);
+});
 </script>
 <template>
   <div class="min-container" style="width: 100%">
@@ -69,11 +70,19 @@ onMounted(() => {
       <ul>
         <li v-for="row in item.list" :key="row.id" @click="onClick(row)">
           <div class="img">
-            <img :src="getImg(row.img ? 'img/' + row.img : 'img/emoji.png')" alt="" />
+            <img
+              :src="getImg(row.img ? 'img/' + row.img : 'img/emoji.png')"
+              alt=""
+            />
           </div>
           <div class="text">
             <p class="title">{{ row.title }}</p>
-            <el-tooltip class="sub-title" effect="dark" style="width: 100px" placement="top">
+            <el-tooltip
+              class="sub-title"
+              effect="dark"
+              style="width: 100px"
+              placement="top"
+            >
               <p class="sub-title">{{ row.text }}</p>
               <template #content>
                 <p class="sub-text">{{ row.text }}</p>

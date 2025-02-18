@@ -132,11 +132,15 @@ class PureHttp {
     console.log(config);
     // 单独处理自定义请求/响应回调
     return new Promise((resolve, reject) => {
-      PureHttp.axiosInstance
-        .request(config)
-        .then((response: undefined) => {
-          resolve(response);
-        })
+      PureHttp.axiosInstance({
+        method: method || 'GET',
+        url: url,
+        data: method == 'post' ? param : undefined,
+        params: method == 'get' ? param : undefined,
+        ...axiosConfig
+      }).then((response: undefined) => {
+        resolve(response);
+      })
         .catch(error => {
           reject(error);
         });
