@@ -5,9 +5,9 @@
   </main>
 </template>
 <script lang="ts" setup>
-import { useRoute } from 'vue-router'
-import LayFooter from '../lay-footer/index.vue'
-const route = useRoute()
+import { useRoute } from "vue-router";
+import LayFooter from "../lay-footer/index.vue";
+const route = useRoute();
 </script>
 <style scoped lang="scss">
 .app-main {

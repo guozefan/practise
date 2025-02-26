@@ -25,9 +25,10 @@ const routes: Array<RouteRecordRaw> = [
         name: 'mdPreview',
         component: () => import('@/views/mdPreview/index.vue')
       },
-      { path: '/website', name: 'website', component: () => import('@/views/website/index.vue') }
+      { path: '/website', name: 'website', component: () => import('@/views/website/index.vue') },
+      { path: '/chat', name: 'chat', component: () => import('@/views/chat/index.vue') }
     ]
-  }
+  },
 ]
 const router = createRouter({
   history: createWebHashHistory(),
