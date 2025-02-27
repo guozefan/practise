@@ -7,6 +7,8 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import Components from 'unplugin-vue-components/vite';
 import { defineConfig, loadEnv } from 'vite';
 
+import Markdown from 'vite-plugin-md';
+
 const pathSrc = path.resolve(__dirname, 'src')
 
 // https://vitejs.dev/config/
@@ -26,13 +28,22 @@ export default ({ mode }) => {
         }
       }
     },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: 'modern-compiler'
+        }
+      }
+    },
     resolve: {
       alias: {
         '@': pathSrc
       }
     },
     plugins: [
-      vue(),
+      vue({
+        include: [/\.vue$/, /\.md$/], // 让Vue插件也编译.md文件
+      }),
       vueJsx(),
       AutoImport({
         resolvers: [
@@ -48,8 +59,9 @@ export default ({ mode }) => {
       Icons({
         autoInstall: true,
       }),
-
+      Markdown()
     ],
+    assetsInclude: ['**/*.md'],
     build: {
       outDir: "dist",
       // 消除打包大小超过500kb警告
