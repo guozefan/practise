@@ -6,7 +6,7 @@ defineOptions({
   name: "chat-ai",
 });
 
-const isFrist = ref(true);
+const isFrist = ref(false);
 </script>
 
 <template>
@@ -16,7 +16,11 @@ const isFrist = ref(true);
       <div class="mask"></div>
     </div>
 
-    <div v-if="isFrist" class="msg-body"></div>
+    <div v-if="isFrist" class="msg-body">
+      <p v-for="item in 20" :key="item" class="scrollbar-demo-item">
+        {{ item }}
+      </p>
+    </div>
     <div class="msg-box">
       <div class="title" v-if="!isFrist">
         <div style="font-size: 60px; width: 60px; height: 60px">
@@ -50,14 +54,15 @@ const isFrist = ref(true);
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 8rem;
+  width: 100%;
 }
 .chat-ai {
-  height: calc(100vh - var(--header-height) * 2);
+  height: calc(100vh - var(--header-height));
   position: relative;
-  width: 10rem;
-  margin: 0 auto;
-  overflow: hidden;
+  // width: 10rem;
+
+  // overflow: hidden;
+  overflow-y: scroll;
 
   .msg-title {
     position: absolute;
@@ -65,6 +70,7 @@ const isFrist = ref(true);
     left: 0;
     width: 100%;
     z-index: 999;
+    background-color: #fff;
     h3 {
       height: 56px;
       line-height: 56px;
@@ -89,12 +95,8 @@ const isFrist = ref(true);
   }
 
   .msg-body {
-    position: relative;
-    height: 100%;
-    overflow-y: scroll;
-    padding: 0.2rem 0;
-    box-sizing: border-box;
-    background: #f7f7f7;
+    width: 10rem;
+    margin: 0 auto;
   }
 
   .msg-box {
@@ -120,5 +122,15 @@ const isFrist = ref(true);
       margin-bottom: 0.5rem;
     }
   }
+}
+</style>
+<style lang="scss">
+.layout-footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding-left: 3.6rem;
+  background-color: #fff;
 }
 </style>

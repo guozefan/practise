@@ -10,6 +10,7 @@
   text-align: center;
   font-size: 0.18rem;
   color: #999;
-  padding: 0.2rem;
+  height: 0.48rem;
+  line-height: 0.48rem;
 }
 </style>
