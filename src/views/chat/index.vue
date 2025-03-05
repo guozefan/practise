@@ -44,31 +44,23 @@ const isFrist = ref(false);
         我可以帮你写代码、读文件、写作各种创意内容，请把你的任务交给我吧~
       </div>
     </div>
-    <MsgInput :is-frist="isFrist"> </MsgInput>
+    <div :class="{ 'msg-container-fixed': isFrist }">
+      <MsgInput :is-frist="isFrist"> </MsgInput>
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.is-frist {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 100%;
-}
 .chat-ai {
   height: calc(100vh - var(--header-height));
   position: relative;
-  // width: 10rem;
-
-  // overflow: hidden;
   overflow-y: scroll;
 
   .msg-title {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
+    position: fixed;
+    top: calc(var(--header-height) + 1px);
+    left: 3.6rem;
+    width: calc(100% - 3.6rem);
     z-index: 999;
     background-color: #fff;
     h3 {
@@ -121,6 +113,29 @@ const isFrist = ref(false);
       font-size: 0.14rem;
       margin-bottom: 0.5rem;
     }
+  }
+}
+
+.is-frist {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.msg-container-fixed {
+  position: fixed;
+  left: 0;
+  bottom: 0.48rem;
+  z-index: 999;
+  width: 100%;
+  padding-left: 3.6rem;
+  display: flex;
+  justify-content: center;
+
+  .msg-container {
+    width: 10rem;
   }
 }
 </style>
