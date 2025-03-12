@@ -18,7 +18,7 @@
     <div class="navs">
       <div
         class="btn animate__animated animate__shakeX animate__slower animate__infinite"
-        @mouseenter="handleMouseEnter"
+        @click="handleClick"
         @mouseleave="handleMouseLeave"
       >
         <span></span><span></span><span></span>
@@ -27,7 +27,7 @@
         <li
           v-for="i in 4"
           :key="i"
-          :class="{ entering: isEntering, leaving: isLeaving }"
+          :class="[isAnimation ? 'entering' : 'leaving']"
           :style="{
             '--start-angle': `${i * 90 - 135}deg`,
             '--end-angle': `${i * 90 - 135 + 720}deg`, // 2圈旋转
@@ -35,7 +35,6 @@
             '--anim-duration': `1600ms`,
             '--easing': 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
           }"
-          @animationend="handleAnimationEnd"
         >
           {{ i }}
         </li>
@@ -48,9 +47,7 @@ import { createRandom } from "@/utils/index";
 import { onMounted, ref } from "vue";
 
 const introduce = ref();
-const isEntering = ref(false);
-const isLeaving = ref(false);
-const animationTimer = ref();
+const isAnimation = ref(false);
 
 const clause = ref<string[][]>([
   ["我生来平庸，也生来骄傲", "记得在这杂乱的生活里，每天带点笑意"],
@@ -88,27 +85,14 @@ const init = (res: string[]) => {
   }).go();
 };
 
-// 鼠标移入动画
-const handleMouseEnter = () => {
-  clearTimeout(animationTimer.value);
-  if (isLeaving.value) {
-    // 如果正在离开，立即停止离开动画
-    isLeaving.value = false;
-    void document.body.offsetHeight; // 强制重绘
-  }
-  isEntering.value = true;
-};
+// 菜单点击
+function handleClick() {
+  isAnimation.value = !isAnimation.value;
+}
 
 // 鼠标离开动画
 const handleMouseLeave = () => {
-  isEntering.value = false;
-  isLeaving.value = true;
-};
-
-const handleAnimationEnd = (event) => {
-  if (event.animationName === "leaveRotate") {
-    isLeaving.value = false;
-  }
+  isAnimation.value = false;
 };
 </script>
 <style lang="scss" scoped>
@@ -178,6 +162,7 @@ const handleAnimationEnd = (event) => {
       width: 0.5rem;
       height: 0.5rem;
       border-radius: 50%;
+      cursor: pointer;
       border: #fff 1px solid;
       z-index: 999;
       background-color: black;
