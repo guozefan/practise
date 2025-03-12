@@ -2,23 +2,43 @@
   <div class="my-user">
     <div class="my-avatar">
       <div class="my-name">
-        <img class="animate__animated animate__bounceInDown" src="@/assets/img/avatar.jpg" alt="" />
-        <p class="name animate__animated animate__jackInTheBox animate__delay_5ms">
+        <img
+          class="animate__animated animate__bounceInDown"
+          src="@/assets/img/avatar.jpg"
+          alt=""
+        />
+        <p
+          class="name animate__animated animate__jackInTheBox animate__delay_5ms"
+        >
           GUO ZE FAN
         </p>
         <p class="introduce" ref="introduce"></p>
       </div>
     </div>
     <div class="navs">
-      <div class="btn animate__animated animate__shakeX animate__slower animate__infinite" @click="open">
+      <div
+        class="btn animate__animated animate__shakeX animate__slower animate__infinite"
+        @mouseenter="handleMouseEnter"
+        @mouseleave="handleMouseLeave"
+      >
         <span></span><span></span><span></span>
       </div>
-      <ul :class="type ? 'unfold' : 'collapse'">
-        <li>1</li>
-        <li>2</li>
-        <li>3</li>
-        <li>4</li>
-        <li>5</li>
+      <ul>
+        <li
+          v-for="i in 4"
+          :key="i"
+          :class="{ entering: isEntering, leaving: isLeaving }"
+          :style="{
+            '--start-angle': `${i * 90 - 135}deg`,
+            '--end-angle': `${i * 90 - 135 + 720}deg`, // 2圈旋转
+            '--radius': `80px`,
+            '--anim-duration': `1600ms`,
+            '--easing': 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+          }"
+          @animationend="handleAnimationEnd"
+        >
+          {{ i }}
+        </li>
       </ul>
     </div>
   </div>
@@ -26,34 +46,22 @@
 <script lang="ts" setup>
 import { createRandom } from "@/utils/index";
 import { onMounted, ref } from "vue";
-const introduce = ref();
-const type = ref(false);
-const clause = ref<string[]>([
-  "不要因为没有掌声就放弃梦想",
-  "活得太清醒本就是件不浪漫的事",
-  "记得在这杂乱的生活里，每天带点笑意",
-  "但愿那些不为人知的你，都有被好好珍藏",
-  "除了死亡其他的别离都应该庆幸",
-  "一定要足够优秀才能堵住悠悠众口",
-  "对于值得与热爱的事情，就要做到极致",
-  "我披上铠甲手握长枪，用尽所有捍卫我所追求的光明与温柔",
-  "每个人都很孤独，在人的一生中，遇到爱、遇到性都不稀罕，稀罕的是遇到了解",
-  "一个人，一本书，一杯茶，一帘梦。有时候，寂寞是这样叫人心动，也只有此刻，世事才会如此波澜不惊",
-  "不必太纠结于当下，也不必太忧虑未来，当你经历过一些事情的时候，眼前的风景已经和从前不一样了",
-]);
 
-const saying = ref<string[][]>([
-  ["生命太短暂,不要去做一些根本没有人想要的东西", "—— Ash Maurya"],
+const introduce = ref();
+const isEntering = ref(false);
+const isLeaving = ref(false);
+const animationTimer = ref();
+
+const clause = ref<string[][]>([
+  ["我生来平庸，也生来骄傲", "记得在这杂乱的生活里，每天带点笑意"],
+  ["活得太清醒本就是件不浪漫的事", "但愿那些不为人知的你，都有被好好珍藏"],
+  ["吹灭读书灯，一身都是月色", "人生如逆旅，我亦是行人"],
+  ["对于值得与热爱的事情，就要做到极致", "人生没有白走的路，走的每一步都算数"],
+  ["花店不开了，花继续开", "你总会迎来那束光或早或晚"],
   [
-    "如果你交给某人一个程序,你将折磨他一整天；如果你教某人如何编写程序,你将折磨他一辈子",
-    "—— David Leinweber",
+    "每次归途，都是为了更好出发，每次停歇，都是为了积攒力量",
+    "哪怕黑夜无光，心中若有灯塔，海上的星光足以照亮归途",
   ],
-  [
-    "软件设计有两种方式：一种方式是,使软件过于简单,明显没有缺陷；另一种方式是,使软件过于复杂,没有明显的缺陷",
-    "—— C.A.R. Hoare",
-  ],
-  ["当你试图解决一个你不理解的问题时,复杂化就产成了", "—— Andy Boothe"],
-  ["没有什么代码的执行速度比空代码更快", "—— Merb 核心原则"],
 ]);
 
 onMounted(() => {
@@ -62,21 +70,8 @@ onMounted(() => {
 
 // 初始化文案，随机下标
 const createText = () => {
-  let clauseIndex: number | string =
-    window.sessionStorage.getItem("clauseIndex") || 0;
-
-  if (clauseIndex >= clause.value.length - 1) {
-    clauseIndex = 0;
-  }
-
-  if (clauseIndex) {
-    clauseIndex++;
-    window.sessionStorage.setItem("clauseIndex", clauseIndex);
-  } else {
-    window.sessionStorage.setItem("clauseIndex", 0);
-  }
-  const randomIndex = createRandom(0, saying.value.length - 1);
-  init([clause.value[clauseIndex], ...saying.value[randomIndex]]);
+  const randomIndex = createRandom(0, clause.value.length - 1);
+  init(clause.value[randomIndex]);
 };
 
 // 初始化打字机插件
@@ -93,10 +88,27 @@ const init = (res: string[]) => {
   }).go();
 };
 
-// 点击菜单
-const open = () => {
-  type.value = !type.value;
-  console.log(type.value);
+// 鼠标移入动画
+const handleMouseEnter = () => {
+  clearTimeout(animationTimer.value);
+  if (isLeaving.value) {
+    // 如果正在离开，立即停止离开动画
+    isLeaving.value = false;
+    void document.body.offsetHeight; // 强制重绘
+  }
+  isEntering.value = true;
+};
+
+// 鼠标离开动画
+const handleMouseLeave = () => {
+  isEntering.value = false;
+  isLeaving.value = true;
+};
+
+const handleAnimationEnd = (event) => {
+  if (event.animationName === "leaveRotate") {
+    isLeaving.value = false;
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -141,7 +153,7 @@ const open = () => {
 
     .introduce {
       letter-spacing: 0.1rem;
-      font-size: 0.16rem;
+      font-size: 0.18rem;
       color: #fff;
       max-width: 6rem;
       line-height: 2.2;
@@ -158,7 +170,7 @@ const open = () => {
   .navs {
     position: fixed;
     left: 50%;
-    bottom: 5%;
+    bottom: 20%;
     transform: translateX(-50%);
 
     .btn {
@@ -206,30 +218,20 @@ const open = () => {
         transform: scale(0);
         color: #101013;
         background-color: rgba(255, 255, 255, 1);
-        transition: 1s cubic-bezier(0, 0, 0, 1.25);
+        transform: rotate(var(--start-angle)) translate(0)
+          rotate(calc(-1 * var(--start-angle))) scale(0);
       }
     }
 
-    .unfold li {
-      &:nth-child(1) {
-        transform: translate(-225%, -150%) scale(1);
-      }
-
-      &:nth-child(2) {
-        transform: translate(-75%, -150%) scale(1);
-      }
-
-      &:nth-child(3) {
-        transform: translate(75%, -150%) scale(1);
-      }
-
-      &:nth-child(4) {
-        transform: translate(225%, -150%) scale(1);
-      }
+    // 进入
+    .entering {
+      animation: enterRotate var(--anim-duration) var(--easing) forwards;
     }
 
-    .collapse li {
-      transform: translate(0, 0) scale(0);
+    // 离开
+    .leaving {
+      animation: leaveRotate calc(var(--anim-duration) * 0.8) var(--easing)
+        forwards;
     }
   }
 }
@@ -249,6 +251,32 @@ const open = () => {
     opacity: 1;
     border: 1px solid rgba(59, 235, 235, 0.7);
     box-shadow: 0 1px 30px #0093df, 0 1px 20px #0093df inset;
+  }
+}
+
+@keyframes enterRotate {
+  0% {
+    opacity: 0;
+    transform: rotate(var(--start-angle)) translate(0)
+      rotate(calc(-1 * var(--start-angle))) scale(0);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(var(--end-angle)) translate(var(--radius))
+      rotate(calc(-1 * var(--end-angle))) scale(1);
+  }
+}
+
+@keyframes leaveRotate {
+  0% {
+    opacity: 1;
+    transform: rotate(var(--end-angle)) translate(var(--radius))
+      rotate(calc(-1 * var(--end-angle))) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(calc(var(--end-angle) - 720deg)) translate(0)
+      rotate(calc(-1 * var(--end-angle) + 720deg)) scale(0);
   }
 }
 </style>
