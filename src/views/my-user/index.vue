@@ -15,14 +15,17 @@
         <p class="introduce" ref="introduce"></p>
       </div>
     </div>
+
     <div class="navs">
+      <div class="outer-button"></div>
       <div
-        class="btn animate__animated animate__shakeX animate__slower animate__infinite"
+        class="codepen-button"
         @click="handleClick"
         @mouseleave="handleMouseLeave"
       >
-        <span></span><span></span><span></span>
+        <div class="inside-button"><span></span><span></span><span></span></div>
       </div>
+
       <ul>
         <li
           v-for="i in 4"
@@ -87,6 +90,7 @@ const init = (res: string[]) => {
 
 // 菜单点击
 function handleClick() {
+  console.log("点击了");
   isAnimation.value = !isAnimation.value;
 }
 
@@ -157,29 +161,90 @@ const handleMouseLeave = () => {
     bottom: 20%;
     transform: translateX(-50%);
 
-    .btn {
-      position: relative;
-      width: 0.5rem;
-      height: 0.5rem;
-      border-radius: 50%;
+    .outer-button {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      &::after {
+        content: "";
+        position: absolute;
+        inset: -4px;
+        background: linear-gradient(
+          45deg,
+          #ff6b6b,
+          /* 红色 */ #4ecdc4,
+          /* 青色 */ #45b7d1,
+          /* 蓝色 */ #96c93d,
+          /* 绿色 */ #ffd700 /* 黄色 */
+        );
+        border-radius: 16px;
+        z-index: -1;
+        animation: flow 4s linear infinite;
+        filter: blur(24px);
+        opacity: 0.9;
+        background-size: 400% 400%;
+      }
+    }
+    .codepen-button {
       cursor: pointer;
-      border: #fff 1px solid;
-      z-index: 999;
-      background-color: black;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      animation-name: breathe;
-      animation-duration: 1500ms;
-      animation-iteration-count: infinite;
+      color: white;
+      margin: 0 auto;
+      position: relative;
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: 50%;
+      overflow: hidden;
+      padding: 6px;
+      isolation: isolate;
+      z-index: 9;
 
-      span {
-        width: 0.05rem;
-        height: 0.05rem;
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 400%;
+        height: 100%;
+        background: linear-gradient(
+          115deg,
+          #4fcf70,
+          #fad648,
+          #a767e5,
+          #12bcfe,
+          #44ce7b
+        );
+        background-size: 25% 100%;
+        animation: an-at-keyframe-css-at-rule-that-translates-via-the-transform-property-the-background-by-negative-25-percent-of-its-width-so-that-it-gives-a-nice-border-animation_-We-use-the-translate-property-to-have-a-nice-transition-so-it_s-not-a-jerk-of-a-start-or-stop
+          0.75s linear infinite;
+        animation-play-state: paused;
+        translate: -5% 0%;
+        transition: translate 0.25s ease-out;
+      }
+
+      &:hover::before {
+        animation-play-state: running;
+        transition-duration: 0.75s;
+        translate: 0% 0%;
+      }
+      .inside-button {
+        position: relative;
+        width: 0.5rem;
+        height: 0.5rem;
+        background: #000;
         border-radius: 50%;
-        background-color: #fff;
-        display: inline-block;
-        margin: 0 2px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        span {
+          width: 0.05rem;
+          height: 0.05rem;
+          border-radius: 50%;
+          background-color: #fff;
+          display: inline-block;
+          margin: 0 2px;
+        }
       }
     }
 
@@ -187,18 +252,18 @@ const handleMouseLeave = () => {
       position: absolute;
       left: 0;
       bottom: 0;
-      width: 0.5rem;
-      height: 0.5rem;
+      width: 100%;
+      height: 100%;
 
       li {
         position: absolute;
         left: 0;
         top: 0;
-        width: 0.5rem;
-        height: 0.5rem;
+        width: 100%;
+        height: 100%;
         border-radius: 50%;
         text-align: center;
-        line-height: 0.5rem;
+        line-height: 1.5;
         font-size: 0.2rem;
         transform: scale(0);
         color: #101013;
@@ -224,18 +289,19 @@ const handleMouseLeave = () => {
 .animate__delay_5ms {
   animation-delay: 0.5s;
 }
-
-@keyframes breathe {
+/* 阴影流动动画 */
+@keyframes flow {
   0% {
-    opacity: 0.4;
-    box-shadow: 0 1px 2px rgba(0, 147, 223, 0.4),
-      0 1px 1px rgba(0, 147, 223, 0.1) inset;
+    background-position: 0% 50%;
+    transform: scale(1);
   }
-
+  50% {
+    background-position: 100% 50%;
+    transform: scale(1.05);
+  }
   100% {
-    opacity: 1;
-    border: 1px solid rgba(59, 235, 235, 0.7);
-    box-shadow: 0 1px 30px #0093df, 0 1px 20px #0093df inset;
+    background-position: 0% 50%;
+    transform: scale(1);
   }
 }
 
@@ -262,6 +328,12 @@ const handleMouseLeave = () => {
     opacity: 0;
     transform: rotate(calc(var(--end-angle) - 720deg)) translate(0)
       rotate(calc(-1 * var(--end-angle) + 720deg)) scale(0);
+  }
+}
+
+@keyframes an-at-keyframe-css-at-rule-that-translates-via-the-transform-property-the-background-by-negative-25-percent-of-its-width-so-that-it-gives-a-nice-border-animation_-We-use-the-translate-property-to-have-a-nice-transition-so-it_s-not-a-jerk-of-a-start-or-stop {
+  to {
+    transform: translateX(-25%);
   }
 }
 </style>
