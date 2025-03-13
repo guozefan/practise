@@ -10,7 +10,7 @@ type Result = {
 
 // 获取博客资料接口
 export const getWebSiteList = (data?: object) => {
-  return http.request<Result>("post", "/practise/website/getList", data);
+  return http.request<Result>("get", "/practise/website/getList", data);
 };
 
 // 新增博客资料接口

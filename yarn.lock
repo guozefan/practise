@@ -2200,6 +2200,11 @@ gopd@^1.2.0:
   resolved "https://registry.npmmirror.com/gopd/-/gopd-1.2.0.tgz"
   integrity sha512-ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg==
 
+gridstack@^11.4.0:
+  version "11.4.0"
+  resolved "https://registry.npmmirror.com/gridstack/-/gridstack-11.4.0.tgz#5d98a471c90a3e8c478382ac71f5a63551eb83c4"
+  integrity sha512-V1faqcHZjbXODt/cMg8a0aIN1uqqR4R5lENTls3sP8vbArvHrYAa9UPzzJWR6+RqPMLxmFG/OG2Evnmu/XOE9A==
+
 happy-dom@^8.1.0:
   version "8.9.0"
   resolved "https://registry.npmmirror.com/happy-dom/-/happy-dom-8.9.0.tgz#b7c9986538b83c3ca3197ce22a1d27a1777c49d9"

@@ -1,74 +1,114 @@
 <script setup lang="ts">
-import { addWebSiteInfo } from "@/api/webSite";
-import { website } from "@/assets/data/website";
+import { getWebSiteList, deleteWebSiteInfo } from "@/api/webSite";
 import { menusStroe } from "@/store/menus";
 import { getImg } from "@/utils/index";
-import { onMounted, ref } from "vue";
+import { nextTick, onMounted, ref } from "vue";
 import editForm from "./form/index.vue";
+import { GridStack } from "gridstack";
+import "gridstack/dist/gridstack.min.css";
+import { ElMessage } from "element-plus";
 const menusPinia = menusStroe();
 
 const dialogVisible = ref(false);
-const ruleForm = ref({
-  name: "",
-  region: "",
-  date1: "",
-  date2: "",
-  delivery: false,
-  type: [],
-  resource: "",
-  desc: "",
-  imageUrl: "",
-});
+let count = ref(0);
+let grid = null; // DO NOT use ref(null) as proxies GS will break all logic when comparing structures... see https://github.com/gridstack/gridstack.js/issues/2115
+let items = ref([]);
+const list = ref([]);
 
 const onClick = (row: any) => {
   window.open(row.url, "_blank");
 };
 
-function allDate() {
-  const arr = website
-    .map((item) => {
-      return item.list.map((row) => {
-        return {
-          title: row.title,
-          desc: row.text,
-          urls: row.url,
-          logo: row.img ? row.img : "emoji.png",
-          type: item.title,
-        };
-      });
-    })
-    .flat();
-  let index = 68;
-  // sendInfo();
-  async function sendInfo() {
-    const { code } = await addWebSiteInfo(arr[index]);
-    if (code == 200) {
-      index++;
-      console.log(index, arr.length);
-      if (index < arr.length) {
-        sendInfo();
+// 获取数据
+async function getList() {
+  const { code, data, message } = await getWebSiteList({
+    page: 1,
+    limit: 1000,
+  });
+  if (code == 200) {
+    let arr = [];
+    data.map((item) => {
+      const index = arr.findIndex((i) => i.type == item.type);
+      if (index != -1) {
+        arr[index].children.push(item);
+      } else {
+        arr.push({ type: item.type, children: [item] });
       }
-    }
+    });
+    list.value = arr;
+    const menus = arr.map((item) => {
+      return { meta: { title: item.type } };
+    });
+    menusPinia.setMenus(menus);
+  } else {
+    ElMessage.error(message);
   }
-  console.log("allDate", website, arr);
+}
+
+function onChange(event, changeItems) {
+  // update item position
+  console.log("onChange", event, changeItems);
+  changeItems.forEach((item) => {
+    var widget = items.value.find((w) => w.id == item.id);
+    if (!widget) {
+      alert("Widget not found: " + item.id);
+      return;
+    }
+    widget.x = item.x;
+    widget.y = item.y;
+    widget.w = item.w;
+    widget.h = item.h;
+  });
+}
+
+function addNewWidget2() {
+  const node = items[count.value] || { x: 0, y: 0, w: 5, h: 2 };
+  node.id = "w_" + count.value++;
+  items.value.push(node);
+  nextTick(() => {
+    grid.makeWidget(node.id);
+  });
+}
+
+function removeLastWidget() {
+  if (count.value == 0) return;
+  var id = `w_${count.value - 1}`;
+  var index = items.value.findIndex((w) => w.id == id);
+  if (index < 0) return;
+  var removed = items.value[index];
+  remove(removed);
+}
+
+function remove(widget) {
+  var index = items.value.findIndex((w) => w.id == widget.id);
+  items.value.splice(index, 1);
+  const selector = `#${widget.id}`;
+  grid.removeWidget(selector, false);
 }
 
 onMounted(() => {
-  const menus = website.map((item) => {
-    return { meta: { title: item.title } };
+  getList();
+  grid = GridStack.init({
+    float: true,
+    cellHeight: "70px",
+    minRow: 1,
   });
-  menusPinia.setMenus(menus);
+
+  grid.on("dragstop", function (event, element) {
+    console.log("dragstop", event, element);
+  });
+
+  grid.on("change", onChange);
 });
 </script>
 <template>
   <div class="min-container" style="width: 100%">
     <el-button @click="dialogVisible = true">新增</el-button>
-    <el-button @click="allDate">批量添加</el-button>
     <editForm v-model="dialogVisible" />
-    <div class="card-item" v-for="item in website" :key="item.id">
-      <h3>{{ item.title }}</h3>
+    <div class="card-item" v-for="(item, index) in list" :key="index">
+      <h3>{{ item.type }}</h3>
       <ul>
-        <li v-for="row in item.list" :key="row.id" @click="onClick(row)">
+        <li v-for="row in item.children" :key="row.id" @click="onClick(row)">
           <div class="img">
             <img
               :src="getImg(row.img ? 'img/' + row.img : 'img/emoji.png')"
@@ -83,14 +123,62 @@ onMounted(() => {
               style="width: 100px"
               placement="top"
             >
-              <p class="sub-title">{{ row.text }}</p>
+              <p class="sub-title">{{ row.desc }}</p>
               <template #content>
-                <p class="sub-text">{{ row.text }}</p>
+                <p class="sub-text">{{ row.desc }}</p>
               </template>
             </el-tooltip>
           </div>
         </li>
       </ul>
+    </div>
+  </div>
+  <el-button type="button" @click="addNewWidget2()"
+    >Add Widget pos [0,0]</el-button
+  >
+  <el-button type="button" @click="removeLastWidget()"
+    >Remove Last Widget</el-button
+  >
+
+  <div class="grid-stack">
+    <div
+      v-for="(w, indexs) in list"
+      class="grid-stack-item"
+      :gs-x="w.x"
+      :gs-y="w.y"
+      :gs-w="w.w"
+      :gs-h="w.h"
+      :gs-id="w.id"
+      :id="w.id"
+      :key="w.id"
+    >
+      <div class="grid-stack-item-content">
+        <el-button @click="remove(w)">remove</el-button>
+        <div class="grid-stack">
+          <div
+            v-for="(w, indexs) in w.children"
+            class="grid-stack-item"
+            :gs-x="w.x"
+            :gs-y="w.y"
+            :gs-w="w.w"
+            :gs-h="w.h"
+            :gs-id="w.id"
+            :id="w.id"
+            :key="w.id"
+          >
+            <div class="grid-stack-item-content">
+              <el-button @click="remove(w)">remove</el-button>
+              <div
+                v-for="i in 10"
+                :key="i"
+                style="width: 50px; height: 10px; background-color: blueviolet"
+              >
+                {{ w }}{{ i }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -170,5 +258,17 @@ main {
 .sub-text {
   max-width: 1.8rem;
   line-height: 1.8;
+}
+
+.grid-stack {
+  background-color: #d5d0ed;
+}
+
+.grid-stack-item-content {
+  font-size: 0.18rem;
+}
+
+.grid-stack-item {
+  background-color: aquamarine;
 }
 </style>
