@@ -7,12 +7,11 @@ import editForm from "./form/index.vue";
 import { GridStack } from "gridstack";
 import "gridstack/dist/gridstack.min.css";
 import { ElMessage } from "element-plus";
+import Drag from "./form/Drag.vue";
 const menusPinia = menusStroe();
 
 const dialogVisible = ref(false);
-let count = ref(0);
 let grid = null; // DO NOT use ref(null) as proxies GS will break all logic when comparing structures... see https://github.com/gridstack/gridstack.js/issues/2115
-let items = ref([]);
 const list = ref([]);
 
 const onClick = (row: any) => {
@@ -35,70 +34,52 @@ async function getList() {
         arr.push({ type: item.type, children: [item] });
       }
     });
-    list.value = arr;
+
+    list.value = arr.map((item, index) => {
+      const children = item.children.map((subItem, i) => {
+        return {
+          ...subItem,
+          content: item.title,
+          x: (i % 4) * 3,
+          y: Math.floor(i / 4),
+          w: 3,
+          h: 2,
+        };
+      });
+      return {
+        ...item,
+        children,
+        content: item.type,
+        x: (index % 4) * 3,
+        y: Math.floor(index / 4),
+        w: 3,
+        h: 2,
+      };
+    });
     const menus = arr.map((item) => {
       return { meta: { title: item.type } };
     });
     menusPinia.setMenus(menus);
+    grid = GridStack.init({
+      float: true,
+      cellHeight: 80,
+      acceptWidgets: true,
+      disableResize: true,
+    });
+    grid.load(list.value);
   } else {
     ElMessage.error(message);
   }
 }
 
-function onChange(event, changeItems) {
-  // update item position
-  console.log("onChange", event, changeItems);
-  changeItems.forEach((item) => {
-    var widget = items.value.find((w) => w.id == item.id);
-    if (!widget) {
-      alert("Widget not found: " + item.id);
-      return;
-    }
-    widget.x = item.x;
-    widget.y = item.y;
-    widget.w = item.w;
-    widget.h = item.h;
-  });
-}
-
-function addNewWidget2() {
-  const node = items[count.value] || { x: 0, y: 0, w: 5, h: 2 };
-  node.id = "w_" + count.value++;
-  items.value.push(node);
-  nextTick(() => {
-    grid.makeWidget(node.id);
-  });
-}
-
-function removeLastWidget() {
-  if (count.value == 0) return;
-  var id = `w_${count.value - 1}`;
-  var index = items.value.findIndex((w) => w.id == id);
-  if (index < 0) return;
-  var removed = items.value[index];
-  remove(removed);
-}
-
-function remove(widget) {
-  var index = items.value.findIndex((w) => w.id == widget.id);
-  items.value.splice(index, 1);
-  const selector = `#${widget.id}`;
-  grid.removeWidget(selector, false);
-}
-
 onMounted(() => {
   getList();
-  grid = GridStack.init({
-    float: true,
-    cellHeight: "70px",
-    minRow: 1,
-  });
 
-  grid.on("dragstop", function (event, element) {
-    console.log("dragstop", event, element);
-  });
+  // grid.on("dragstop", function (event, element) {
+  //   console.log("dragstop", event, element);
+  // });
 
-  grid.on("change", onChange);
+  // grid.on("change", onChange);
 });
 </script>
 <template>
@@ -133,54 +114,45 @@ onMounted(() => {
       </ul>
     </div>
   </div>
-  <el-button type="button" @click="addNewWidget2()"
-    >Add Widget pos [0,0]</el-button
+  <div class="grid-stack"></div>
+  <Drag
+    v-model="list"
+    gridStackClass="card-list"
+    gridStackItemClass="card-list-item"
+    gridStackItemContentClass="card-list-content-item"
   >
-  <el-button type="button" @click="removeLastWidget()"
-    >Remove Last Widget</el-button
-  >
-
-  <div class="grid-stack">
-    <div
-      v-for="(w, indexs) in list"
-      class="grid-stack-item"
-      :gs-x="w.x"
-      :gs-y="w.y"
-      :gs-w="w.w"
-      :gs-h="w.h"
-      :gs-id="w.id"
-      :id="w.id"
-      :key="w.id"
-    >
-      <div class="grid-stack-item-content">
-        <el-button @click="remove(w)">remove</el-button>
-        <div class="grid-stack">
-          <div
-            v-for="(w, indexs) in w.children"
-            class="grid-stack-item"
-            :gs-x="w.x"
-            :gs-y="w.y"
-            :gs-w="w.w"
-            :gs-h="w.h"
-            :gs-id="w.id"
-            :id="w.id"
-            :key="w.id"
-          >
-            <div class="grid-stack-item-content">
-              <el-button @click="remove(w)">remove</el-button>
-              <div
-                v-for="i in 10"
-                :key="i"
-                style="width: 50px; height: 10px; background-color: blueviolet"
-              >
-                {{ w }}{{ i }}
-              </div>
-            </div>
+    <template #item="item">
+      <p class="title">{{ item.type }}</p>
+      <Drag
+        v-model="item.children"
+        gridStackClass="card-list-min"
+        gridStackItemClass="card-list-item-min"
+        gridStackItemContentClass="card-list-content-item-min"
+      >
+        <template #item="subItem">
+          <div class="img">
+            <img
+              :src="
+                getImg(subItem.img ? 'img/' + subItem.img : 'img/emoji.png')
+              "
+              alt=""
+            />
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
+          <el-tooltip
+            class="sub-title"
+            effect="dark"
+            style="width: 100px"
+            placement="top"
+          >
+            <p class="sub-title">{{ subItem?.title }}</p>
+            <template #content>
+              <p class="sub-text">{{ subItem.desc }}</p>
+            </template>
+          </el-tooltip>
+        </template>
+      </Drag>
+    </template>
+  </Drag>
 </template>
 
 <style scoped lang="scss">
@@ -260,15 +232,42 @@ main {
   line-height: 1.8;
 }
 
-.grid-stack {
-  background-color: #d5d0ed;
-}
+.card-list {
+  :deep(.card-list-item) {
+    box-shadow: 0 0 0.1rem rgba(0, 0, 0, 0.2);
+    border-radius: 0.1rem;
+    .title {
+      font-size: 0.18rem;
+      height: 0.56rem;
+      line-height: 0.56rem;
+      text-align: center;
+      box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2);
+    }
+  }
+  :deep(.card-list-min) {
+    height: calc(100% - 0.56rem);
+    .card-list-item-min {
+      width: 200px;
+      height: 200px;
+      .img {
+        width: 0.6rem;
+        height: 0.6rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        img {
+          width: 90%;
+          height: 90%;
+          border-radius: 50%;
+          vertical-align: top;
+        }
+      }
 
-.grid-stack-item-content {
-  font-size: 0.18rem;
-}
-
-.grid-stack-item {
-  background-color: aquamarine;
+      .sub-title {
+        font-size: 0.18rem;
+        text-align: center;
+      }
+    }
+  }
 }
 </style>
