@@ -3,8 +3,7 @@ import { http } from "@/utils/http";
 type Result = {
   code: number;
   data?: Array<any> | any;
-  msg: string;
-  time: number;
+  message: string;
 };
 
 
@@ -17,6 +16,12 @@ export const getWebSiteList = (data?: object) => {
 export const addWebSiteInfo = (data?: object) => {
   return http.request<Result>("post", "/practise/website/add", data);
 };
+
+// 编辑博客资料接口
+export const editWebSiteInfo = (data?: object) => {
+  return http.request<Result>("post", "/practise/website/edit", data);
+};
+
 
 
 // 删除博客资料接口

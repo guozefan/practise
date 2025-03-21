@@ -34,7 +34,7 @@ interface MessageParams {
 /**
  * `Message` 消息提示函数
  */
-const message = (
+const Message = (
   message: string | VNode | (() => VNode),
   params?: MessageParams
 ): MessageHandler => {
@@ -81,5 +81,5 @@ const message = (
  */
 const closeAllMessage = (): void => ElMessage.closeAll();
 
-export { closeAllMessage, message };
+export { closeAllMessage, Message };
 

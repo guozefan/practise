@@ -1,4 +1,4 @@
-import { message } from "@/utils/message";
+import { Message } from "@/utils/message";
 import Axios, {
   type AxiosInstance,
   type AxiosRequestConfig,
@@ -170,12 +170,12 @@ class PureHttp {
 function errorResponseHeader(res: PureHttpRequestData) {
   switch (res.code) {
     case 4001:
-      message("登录失效，请先登录", {
+      Message("登录失效，请先登录", {
         type: "error"
       });
       break;
     case 4002:
-      message(res.msg, {
+      Message(res.msg, {
         type: "error"
       });
       break;

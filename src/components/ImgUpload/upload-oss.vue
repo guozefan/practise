@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { ElMessage } from "element-plus";
 import { Plus } from "@element-plus/icons-vue";
-import { message } from "@/utils/message";
+import { Message } from "@/utils/message";
 import { getAliOss } from "@/api/upload/oss.ts";
 
 import type { UploadProps } from "element-plus";
@@ -52,12 +51,12 @@ const beforeAvatarUpload: UploadProps["beforeUpload"] = async (rawFile) => {
   const isImage = types.includes(rawFile.type);
   const size = rawFile.size / 1024 / 1024;
   if (!isImage) {
-    message("请上传jpeg、jpg、png类型的图片", {
+    Message("请上传jpeg、jpg、png类型的图片", {
       type: "error",
     });
     return false;
   } else if (size > props.sizeMax) {
-    message(`请上传小于${props.sizeMax}M的图片`, {
+    Message(`请上传小于${props.sizeMax}M的图片`, {
       type: "error",
     });
     return false;

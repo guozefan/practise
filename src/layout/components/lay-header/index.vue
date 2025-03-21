@@ -6,97 +6,108 @@
     </div>
     <div class="nav">
       <ul>
-        <li v-for="(item, index) in list" :key="index" :class="navId === index ? 'active' : ''" @click="onSetActiveId(item, index)">
+        <li
+          v-for="(item, index) in list"
+          :key="index"
+          :class="navId === index ? 'active' : ''"
+          @click="onSetActiveId(item, index)"
+        >
           {{ item.text }}
         </li>
       </ul>
       <div class="topic-btn" @click="handleToggleDark">
-        <Moon v-if="isDark" style="font-size: 2em; width: 0.2rem; height: 0.2rem" />
+        <Moon
+          v-if="isDark"
+          style="font-size: 2em; width: 0.2rem; height: 0.2rem"
+        />
         <Sunny v-else style="font-size: 2em; width: 0.2rem; height: 0.2rem" />
       </div>
     </div>
   </header>
 </template>
 <script setup lang="ts">
-import useDark from '@/hook/useDark.ts'
-import { menusStroe } from '@/store/menus'
-import { themeStroe } from '@/store/useTheme'
-import { toPageQuery } from '@/utils/index'
-import { onMounted, ref } from 'vue'
-import router from '@/router/index'
+import useDark from "@/hook/useDark.ts";
+import { menusStroe } from "@/store/menus";
+import { themeStroe } from "@/store/useTheme";
+import { toPageQuery } from "@/utils/index";
+import { onMounted, ref } from "vue";
+// import router from '@/router/index'
 
-const theme = themeStroe()
-const menusPinia = menusStroe()
+const theme = themeStroe();
+const menusPinia = menusStroe();
 
-import Moon from '~icons/ep/moon'
-import Sunny from '~icons/ep/sunny'
+import Moon from "~icons/ep/moon";
+import Sunny from "~icons/ep/sunny";
 
-const { isDark, toggleDark } = useDark()
+const { isDark, toggleDark } = useDark();
 
 const list = ref([
-  { id: '', text: 'react' },
-  { id: '', text: 'vue' },
-  { id: '', text: '知识点' },
-  { id: '', text: '手写题' },
-  { id: '', text: 'Js函数' },
-  { id: '', text: '学习笔记' }
+  { id: "", text: "react" },
+  { id: "", text: "vue" },
+  { id: "", text: "知识点" },
+  { id: "", text: "手写题" },
+  { id: "", text: "Js函数" },
+  { id: "", text: "学习笔记" },
   // { id: '', text: '掘金' }
-])
+]);
 
-const navId = ref(-1)
+const navId = ref(-1);
 
 onMounted(() => {
-  getActiveId()
-})
+  getActiveId();
+});
 
 function handleToggleDark(e: any) {
-  toggleDark(e)
-  theme.setTheme(isDark.value ? 'dark' : 'light')
+  toggleDark(e);
+  theme.setTheme(isDark.value ? "dark" : "light");
 }
 
 // 跳到个人页
 const onToUser = () => {
-  toPageQuery('/myUser')
-}
+  toPageQuery("/myUser");
+};
 
 //  跳到首页
 const onRefresh = () => {
-  toPageQuery('/home')
-}
+  toPageQuery("/home");
+};
 
 // 导航跳转
 const getActiveId = () => {
-  const index = JSON.parse(sessionStorage.getItem('navId') as string | any)
+  const index = JSON.parse(sessionStorage.getItem("navId") as string | any);
   if (index) {
-    navId.value = index
+    navId.value = index;
   }
-}
+};
 const onSetActiveId = (row: any, index: number) => {
-  navId.value = index
-  sessionStorage.setItem('navId', JSON.stringify(index))
-  if (row.text == '学习笔记') {
-    getMdFiles()
+  navId.value = index;
+  sessionStorage.setItem("navId", JSON.stringify(index));
+  if (row.text == "学习笔记") {
+    getMdFiles();
   }
-}
+};
 
 // 获取md格式的文件
 function getMdFiles() {
   try {
-    const mdFiles = import.meta.glob('../../../docs/vue/*.md')
-    let names = []
+    const mdFiles = import.meta.glob("../../../docs/vue/*.md");
+    let names = [];
     for (const filePath in mdFiles) {
-      const fileName = filePath.split('/').pop().replace('.md', '')
-      const url = encodeURIComponent(fileName)
-      names.push({ path: `/mdPreview?url=vue/${url}`, meta: { title: fileName } })
+      const fileName = filePath.split("/").pop().replace(".md", "");
+      const url = encodeURIComponent(fileName);
+      names.push({
+        path: `/mdPreview?url=vue/${url}`,
+        meta: { title: fileName },
+      });
     }
-    menusPinia.setMenus(names)
-    const url = names[0].path.split('?')[0]
-    const val = names[0].path.split('?')[1]
-    let query = {}
-    query[val.split('=')[0]] = val.split('=')[1]
-    toPageQuery(url, query)
+    menusPinia.setMenus(names);
+    const url = names[0].path.split("?")[0];
+    const val = names[0].path.split("?")[1];
+    let query = {};
+    query[val.split("=")[0]] = val.split("=")[1];
+    toPageQuery(url, query);
   } catch (e) {
-    console.log(e)
+    console.log(e);
   }
 }
 </script>
