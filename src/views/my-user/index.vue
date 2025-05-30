@@ -16,30 +16,29 @@
       </div>
     </div>
 
-    <div class="navs">
+    <div
+      class="navs"
+      @mouseleave="handleMouseLeave"
+      @mouseenter="handleMouseEnter"
+    >
       <div class="outer-button"></div>
-      <div
-        class="codepen-button"
-        @click="handleClick"
-        @mouseleave="handleMouseLeave"
-      >
+      <div class="codepen-button" @click="handleClick">
         <div class="inside-button"><span></span><span></span><span></span></div>
       </div>
-
       <ul>
         <li
-          v-for="i in 4"
-          :key="i"
+          v-for="(item, index) in list"
+          :key="index"
           :class="[isAnimation ? 'entering' : 'leaving']"
           :style="{
-            '--start-angle': `${i * 90 - 135}deg`,
-            '--end-angle': `${i * 90 - 135 + 720}deg`, // 2圈旋转
+            '--start-angle': `${index * 90 - 135}deg`,
+            '--end-angle': `${index * 90 - 135 + 720}deg`, // 2圈旋转
             '--radius': `80px`,
             '--anim-duration': `1600ms`,
             '--easing': 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
           }"
         >
-          {{ i }}
+          <div :class="item.class">{{ item.text }}</div>
         </li>
       </ul>
     </div>
@@ -51,6 +50,7 @@ import { onMounted, ref } from "vue";
 
 const introduce = ref();
 const isAnimation = ref(false);
+let leaveTimer: null | number = null;
 
 const clause = ref<string[][]>([
   ["我生来平庸，也生来骄傲", "记得在这杂乱的生活里，每天带点笑意"],
@@ -62,6 +62,32 @@ const clause = ref<string[][]>([
     "每次归途，都是为了更好出发，每次停歇，都是为了积攒力量",
     "哪怕黑夜无光，心中若有灯塔，海上的星光足以照亮归途",
   ],
+]);
+const list = ref([
+  {
+    text: "简历",
+    url: "",
+    class: "btn-resume",
+    id: 1,
+  },
+  {
+    text: "资料",
+    url: "",
+    class: "btn-profile",
+    id: 2,
+  },
+  {
+    text: "案例",
+    url: "",
+    class: "btn-case",
+    id: 3,
+  },
+  {
+    text: "笔记",
+    url: "",
+    class: "btn-note",
+    id: 4,
+  },
 ]);
 
 onMounted(() => {
@@ -90,16 +116,25 @@ const init = (res: string[]) => {
 
 // 菜单点击
 function handleClick() {
-  console.log("点击了");
   isAnimation.value = !isAnimation.value;
 }
 
 // 鼠标离开动画
 const handleMouseLeave = () => {
-  isAnimation.value = false;
+  leaveTimer = setTimeout(() => {
+    isAnimation.value = false;
+  }, 1000);
+};
+
+// 鼠标进入动画
+const handleMouseEnter = () => {
+  if (leaveTimer) {
+    clearTimeout(leaveTimer);
+  }
 };
 </script>
 <style lang="scss" scoped>
+@use "sass:color"; // 添加颜色模块导入
 .my-user {
   overflow-y: scroll;
 
@@ -270,6 +305,53 @@ const handleMouseLeave = () => {
         background-color: rgba(255, 255, 255, 1);
         transform: rotate(var(--start-angle)) translate(0)
           rotate(calc(-1 * var(--start-angle))) scale(0);
+      }
+    }
+
+    // 配色方案
+    $colors: (
+      resume: #2a5c83,
+      profile: #3d3d3d,
+      case: #2b593f,
+      note: #4a365c,
+    );
+    @each $name, $color in $colors {
+      .btn-#{$name} {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        writing-mode: vertical-rl;
+        font-size: 0.14rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: linear-gradient(
+          145deg,
+          color.scale($color, $lightness: 5%),
+          $color
+        );
+        color: rgba(255, 255, 255, 0.9);
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        font-size: 0.16rem;
+        font-weight: 500; // 中等字重
+        letter-spacing: 0.5px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+        &:hover {
+          background: linear-gradient(
+            145deg,
+            color.scale($color, $lightness: 8%),
+            color.scale($color, $lightness: 2%)
+          );
+          border-color: rgba(255, 255, 255, 0.15);
+          color: rgba(255, 255, 255, 1);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        &:active {
+          transform: scale(0.98);
+        }
       }
     }
 
