@@ -38,7 +38,12 @@
             '--easing': 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
           }"
         >
-          <div :class="item.class">{{ item.text }}</div>
+          <StarrySkyButton
+            :text="item.text"
+            :bor-color="item.borColor"
+            :bg-color="item.bgColor"
+          />
+          <!-- <div :class="item.class">{{ item.text }}</div> -->
         </li>
       </ul>
     </div>
@@ -46,10 +51,12 @@
 </template>
 <script lang="ts" setup>
 import { createRandom } from "@/utils/index";
+
 import { onMounted, ref } from "vue";
+import StarrySkyButton from "@/components/StarrySkyButton/index.vue";
 
 const introduce = ref();
-const isAnimation = ref(false);
+const isAnimation = ref(true);
 let leaveTimer: null | number = null;
 
 const clause = ref<string[][]>([
@@ -68,24 +75,29 @@ const list = ref([
     text: "简历",
     url: "",
     class: "btn-resume",
+    // bgColor: ["rgba(49,32,131, 0.5)", "rgba(11,188,89,0.5)"],
+    borColor: ["#3b82f6", "#5d83d5", "#768dc1", "#2563eb"],
     id: 1,
   },
   {
     text: "资料",
     url: "",
     class: "btn-profile",
+    borColor: ["#3d3d3d", "#cdc1c1", "#603939", "#94479a"],
     id: 2,
   },
   {
     text: "案例",
     url: "",
     class: "btn-case",
+    borColor: ["#d6abe3", "#8751b8", "#ba81ca", "#dd9fef"],
     id: 3,
   },
   {
     text: "笔记",
     url: "",
     class: "btn-note",
+    borColor: ["#2bdea2", "#52a375", "#84e1ac", "#0ce96c"],
     id: 4,
   },
 ]);
@@ -297,61 +309,9 @@ const handleMouseEnter = () => {
         width: 100%;
         height: 100%;
         border-radius: 50%;
-        text-align: center;
-        line-height: 1.5;
-        font-size: 0.2rem;
         transform: scale(0);
-        color: #101013;
-        background-color: rgba(255, 255, 255, 1);
         transform: rotate(var(--start-angle)) translate(0)
           rotate(calc(-1 * var(--start-angle))) scale(0);
-      }
-    }
-
-    // 配色方案
-    $colors: (
-      resume: #2a5c83,
-      profile: #3d3d3d,
-      case: #2b593f,
-      note: #4a365c,
-    );
-    @each $name, $color in $colors {
-      .btn-#{$name} {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        writing-mode: vertical-rl;
-        font-size: 0.14rem;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        background: linear-gradient(
-          145deg,
-          color.scale($color, $lightness: 5%),
-          $color
-        );
-        color: rgba(255, 255, 255, 0.9);
-        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-        font-size: 0.16rem;
-        font-weight: 500; // 中等字重
-        letter-spacing: 0.5px;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-        &:hover {
-          background: linear-gradient(
-            145deg,
-            color.scale($color, $lightness: 8%),
-            color.scale($color, $lightness: 2%)
-          );
-          border-color: rgba(255, 255, 255, 0.15);
-          color: rgba(255, 255, 255, 1);
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        &:active {
-          transform: scale(0.98);
-        }
       }
     }
 

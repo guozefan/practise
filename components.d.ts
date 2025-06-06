@@ -26,6 +26,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Select: typeof import('./src/components/ReIcon/src/Select.vue')['default']
+    StarrySkyButton: typeof import('./src/components/StarrySkyButton/index.vue')['default']
     UploadOss: typeof import('./src/components/ImgUpload/upload-oss.vue')['default']
     Video: typeof import('./src/components/Video/index.vue')['default']
   }
