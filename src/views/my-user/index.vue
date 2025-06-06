@@ -279,11 +279,42 @@ const handleMouseEnter = () => {
         position: relative;
         width: 0.5rem;
         height: 0.5rem;
-        background: #000;
+        background: linear-gradient(45deg, #212121, #1a1a1a);
         border-radius: 50%;
         display: flex;
         justify-content: center;
         align-items: center;
+        overflow: hidden; /* 添加溢出隐藏 */
+
+        /* 第一层粒子 */
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: -50%;
+          width: 200%;
+          height: 500%;
+          animation: animStar 4s linear infinite;
+          /* 添加动画延迟，使两组粒子错开 */
+          animation-delay: -1s;
+          background-image: radial-gradient(#ffffff 0.5px, transparent 1%);
+          background-size: 16px 16px;
+          opacity: 0.5;
+        }
+
+        /* 第二层粒子 */
+        &::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 200%;
+          animation: animStarRotate 1s linear infinite;
+          background-image: radial-gradient(#ffffff 1px, transparent 1%);
+          background-size: 20px 20px;
+        }
+
         span {
           width: 0.05rem;
           height: 0.05rem;
@@ -376,6 +407,26 @@ const handleMouseEnter = () => {
 @keyframes an-at-keyframe-css-at-rule-that-translates-via-the-transform-property-the-background-by-negative-25-percent-of-its-width-so-that-it-gives-a-nice-border-animation_-We-use-the-translate-property-to-have-a-nice-transition-so-it_s-not-a-jerk-of-a-start-or-stop {
   to {
     transform: translateX(-25%);
+  }
+}
+
+@keyframes animStar {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-135rem);
+  }
+}
+
+@keyframes animStarRotate {
+  from {
+    transform: rotate(360deg);
+  }
+
+  to {
+    transform: rotate(0);
   }
 }
 </style>

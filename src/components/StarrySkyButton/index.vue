@@ -145,7 +145,7 @@ defineProps({
     left: 0;
     width: 100%;
     height: 200%;
-    animation: animStarFly 4s linear infinite;
+    animation: animStarRotate 1s linear infinite;
   }
 
   #stars::after {
@@ -160,9 +160,9 @@ defineProps({
     left: -50%;
     width: 200%;
     height: 500%;
-    animation: animStarFly 6s linear infinite;
+    animation: animStar 2s linear infinite;
     /* 添加动画延迟，使两组粒子错开 */
-    animation-delay: -3s;
+    // animation-delay: -3s;
   }
 
   #stars::before {
@@ -172,25 +172,6 @@ defineProps({
   }
 }
 
-/* 修改上升动画，增加一些横向移动 */
-@keyframes animStarFly {
-  0% {
-    transform: translateY(100%) translateX(-5px);
-    opacity: 0.3;
-  }
-  10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-100%) translateX(5px);
-    opacity: 0.3;
-  }
-}
-
-/* 保留原有的animStar动画，但不再使用 */
 @keyframes animStar {
   from {
     transform: translateY(0);
@@ -200,6 +181,45 @@ defineProps({
     transform: translateY(-65px);
   }
 }
+
+@keyframes animStarRotate {
+  from {
+    transform: rotate(180deg);
+  }
+
+  to {
+    transform: rotate(0);
+  }
+}
+
+// /* 修改上升动画，增加一些横向移动 */
+// @keyframes animStarFly {
+//   0% {
+//     transform: translateY(100%) translateX(-5px);
+//     opacity: 0.3;
+//   }
+//   10% {
+//     opacity: 1;
+//   }
+//   90% {
+//     opacity: 1;
+//   }
+//   100% {
+//     transform: translateY(-100%) translateX(5px);
+//     opacity: 0.3;
+//   }
+// }
+
+// /* 保留原有的animStar动画，但不再使用 */
+// @keyframes animStar {
+//   from {
+//     transform: translateY(0);
+//   }
+
+//   to {
+//     transform: translateY(-65px);
+//   }
+// }
 @keyframes gradient_301 {
   0% {
     background-position: 0% 50%;
